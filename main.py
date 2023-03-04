@@ -1,4 +1,5 @@
 import os, copy, math
+from datetime import datetime
 
 class Ship:
     # REPRESENTATION
@@ -40,7 +41,7 @@ class Container:
     def get_dist(self, xPos_new, yPos_new):
         # Manhatten Distance
         return (abs(xPos_new - self.xPos) + abs(yPos_new - self.yPos))
-    
+
     def cost(self):
         pass
 
@@ -63,8 +64,23 @@ class Node:
     # Representing each state of Ship & Buffer.
     pass
 
+def addLogComment(str):
+    f = open("log.txt", "a")
+    now = datetime.now()
+    time_str = now.strftime("%B %d %Y: %H:%M")
+    f.write(time_str + " " + str)
+    f.close()
+
+def login():
+    print("""===========================================
+                Log In
+===========================================""")
+    name = input("Your Full Name: ")
+    str = name + " signs in\n"
+    addLogComment(str)
+
 def main():
-    """    
+    """
     test_container = Container(1, 2, 96, 'Cat')
     if (test_container.get_dist(0,0) != 3):
         print("ERROR: Manhatten Distance Formula wrong!")
@@ -72,3 +88,4 @@ def main():
     print(test_container)
     """
 main()
+login()
