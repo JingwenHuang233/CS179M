@@ -132,17 +132,28 @@ class OnOffNode:
         return boxes, topBox
 
     def available_spot(self):
-        pass
+        available_spots = []
+        for i in range(12):
+            row = 1
+            while self.grid[(row-1)*12 + i].name != "UNUSED" and row <= 8:
+                row = row + 1
+
+            if row == 9:
+                pass
+            elif self.grid[(row-1)*12 + i].name == "UNUSED":
+                available_spots.append((row-1)*12 + i)
+
+        return  available_spots
 
     def nearest_available_spot(self, x, y):  # from x, y to nearest empty spot that's not on top of boxes need to be removed
-        nearest = 0
-        minDist = self.grid[0].get_dist(x, y)
-        for i in range(len(self.grid)):
-            if self.grid[i].name == "UNUSED":
-                dist = self.grid[i].get_dist(x, y)
-                if dist < minDist:
-                    minDist = dist
-                    nearest = i
+        spots = self.available_spot()
+        nearest = spots[0]
+        minDist = self.grid[spots[0]].get_dist(x, y)
+        for i in range(len(spots)):
+            dist = self.grid[spots[i]].get_dist(x, y)
+            if dist < minDist:
+                minDist = dist
+                nearest = spots[i]
         return minDist, nearest     # return the minimum distance and the index of the nearest spot in grid
 
     def box_with_least_cost(self, boxes):   # the index of the box_with_least_cost and the cost
