@@ -79,6 +79,34 @@ def login():
     str = name + " signs in\n"
     addLogComment(str)
 
+
+def loadManifest():
+    path = input("Manifest File Path:")
+    f = open(path, "r")
+    lines = f.readlines()
+    global bay
+    global grid
+    bay = []
+    grid = []
+    for line in lines:
+        temp = line.split(", ")
+        pos_str = temp[0].strip("[]").split(",")
+        xPos = int(pos_str[0])
+        yPos = int(pos_str[1])
+        weight = int(temp[1].strip("{}"))
+        name = temp[2].strip("\n")
+        container = Container(xPos, yPos, weight, name)
+
+        if name != "NAN" and name != "UNUSED":
+            bay.append(container)
+
+        print(xPos, yPos, weight, name)
+        grid.append(container)
+
+    f.close()
+    # print(bay) #for testing
+    # print(len(grid)) #for testing
+
 def main():
     """
     test_container = Container(1, 2, 96, 'Cat')
@@ -89,3 +117,4 @@ def main():
     """
 main()
 login()
+loadManifest()
