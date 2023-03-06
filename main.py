@@ -3,9 +3,9 @@ from datetime import datetime
 
 class Ship:
     # REPRESENTATION
-    def __init__(self):
-        onlist = []
-        offlist = []
+    def __init__(self, grid, bay):
+        self.grid = grid
+        self.bay = bay
 
     # OPERATORS
     # Where definitions for move, balance, and swap containers operators go.
@@ -85,8 +85,6 @@ def loadManifest():
     path = input("Manifest File Path:")
     f = open(path, "r")
     lines = f.readlines()
-    global bay
-    global grid
     bay = []
     grid = []
     for line in lines:
@@ -103,7 +101,8 @@ def loadManifest():
 
         # print(xPos, yPos, weight, name)
         grid.append(container)  # index = (xPos-1)*12+(yPos-1)
-
+    global ship
+    ship = Ship(grid, bay)
     f.close()
     # print(bay) #for testing
     # print(len(grid)) #for testing
@@ -163,7 +162,6 @@ class OnOffNode:
             x = self.grid[boxes[i]].xPos
             y = self.grid[boxes[i]].yPos
             if boxes[i] in self.offlist:   # from current pos to {9,1} + 2 mins
-                print("!!!executed")
                 cost = abs(9 - x) + abs(1 - y)
                 cost = cost + 2     # transfer between truck and ship, so +2 mins
                 if cost < minCost:
@@ -191,9 +189,9 @@ class OnOffNode:
             boxes_on_top.extend(boxes)
         # operation 1:
         if len(self.onlist) > 0:
-            new_onlist = self.onlist.copy()
-            new_offlist = self.offlist.copy()
-            new_grid = self.grid.copy()
+            new_onlist = copy.deepcopy(self.onlist)
+            new_offlist = copy.deepcopy(self.offlist)
+            new_grid = copy.deepcopy(self.grid)
             temp = new_onlist.pop(0)   # container
             onDist, dest = self.nearest_available_spot(9, 1)    # virtual pink spot, problem slide pg32
             hn = len(new_onlist) + len(new_offlist) + len(boxes_on_top)  # current state to goal state
@@ -208,9 +206,9 @@ class OnOffNode:
 
         # operation 2:
         if len(self.offlist) > 0:
-            new_onlist = self.onlist.copy()
-            new_offlist = self.offlist.copy()
-            new_grid = self.grid.copy()
+            new_onlist = copy.deepcopy(self.onlist)
+            new_offlist = copy.deepcopy(self.offlist)
+            new_grid = copy.deepcopy(self.grid)
             cost, temp = self.box_with_least_cost(box_can_be_removed)
             if temp in new_offlist:     # if it's target box
                 new_offlist.remove(temp)
@@ -254,17 +252,17 @@ def on_off_load():  # general search
     count = 0
     onlist = [Container(9, 1, 120, "test1"), Container(9, 1, 350, "test2")]     # list of containers
     offlist = [2]    # index (int) in grid
-    nodes = [OnOffNode(grid, onlist, offlist, None, "first node", 0, 0)]
-    node = nodes.pop(0)
-
+    global on_off_nodes
+    new_grid = copy.deepcopy(ship.grid)
+    on_off_nodes = [OnOffNode(new_grid, onlist, offlist, None, "first node", 0, 0)]
+    node = on_off_nodes.pop(0)
     while not OnOff_goal_test(node):
         expanded_nodes = node.expand()    # 2 operations so 2 new nodes
-
         for i in range(len(expanded_nodes)):
-            nodes.append(expanded_nodes[i])
+            on_off_nodes.append(expanded_nodes[i])
 
-        nodes = queueing_function(nodes)
-        node = nodes.pop(0)
+        on_off_nodes = queueing_function(on_off_nodes)
+        node = on_off_nodes.pop(0)
 
     operation_sequence = ""
     while node != None:
@@ -281,7 +279,9 @@ def main():
         print("Expected: 3, Actual ", test_container.get_dist(0, 0))
     print(test_container)
     """
+    login()
+    loadManifest()
+    on_off_load()
+
 main()
-login()
-loadManifest()
-on_off_load()
+
