@@ -1,20 +1,43 @@
 import os, copy, math
 from datetime import datetime
+from queue import PriorityQueue
 
 class Ship:
     # REPRESENTATION
-    def __init__(self, grid, bay):
-        self.grid = grid
-        self.bay = bay
+    def __init__(self, width, height, grid, bay):
+        onlist = []
+        offlist = []
+        
+        self.width  = width
+        self.height = height
+        self.grid   = grid
+        self.bay    = bay
 
     # OPERATORS
     # Where definitions for move, balance, and swap containers operators go.
 
     # OUTPUT
-    # For terminal display visualization, decide how to display walls, empty spaces, and containers.
-    # Should look like a grid.
+    # For terminal display visualization. Useful for displaying each state.
+    # Invalid slots (NAN) are displayed as '█'.
+    # Empty slots (UNUSED) are displayed as '-'.
+    # Containers are displayed as the first letter of their name.
     def __repr__(self):
-        pass
+        ret_str = ''
+        for y in range(self.height - 1, -1, -1):
+            for x in range(0, self.width):
+                index = x + (y*12)
+                curr_container = self.grid[index]
+                if (curr_container.name == 'NAN'):
+                    ret_str += '█ '
+                elif (curr_container.name == 'UNUSED'):
+                    ret_str += '- '
+                else:
+                    ret_str += ((curr_container.name[0]) + ' ')
+
+                pass
+            if (y != 0):
+                ret_str += '\n'
+        return ret_str
 
 class Buffer:
     # REPRESENTATION
@@ -60,11 +83,6 @@ class Container:
                     +self.name)
         return ret_str
 
-
-class Node:
-    # Representing each state of Ship & Buffer.
-    pass
-
 def addLogComment(str):
     f = open("log.txt", "a")
     now = datetime.now()
@@ -79,14 +97,15 @@ def login():
     name = input("Your Full Name: ")
     str = name + " signs in\n"
     addLogComment(str)
+    
+def loadManifest(manifest_file_path):
+    #path = input("Manifest File Path:")
+    f           = open(manifest_file_path, "r")
+    lines       = f.readlines()
 
+    bay         = []
+    grid        = []
 
-def loadManifest():
-    path = input("Manifest File Path:")
-    f = open(path, "r")
-    lines = f.readlines()
-    bay = []
-    grid = []
     for line in lines:
         temp = line.split(", ")
         pos_str = temp[0].strip("[]").split(",")
@@ -101,12 +120,10 @@ def loadManifest():
 
         # print(xPos, yPos, weight, name)
         grid.append(container)  # index = (xPos-1)*12+(yPos-1)
-    global ship
-    ship = Ship(grid, bay)
-    f.close()
-    # print(bay) #for testing
-    # print(len(grid)) #for testing
 
+    ret_ship    = Ship(12, 8, grid, bay)
+    f.close()
+    return ret_ship
 
 class OnOffNode:
     # Representing each state of Ship & Buffer.
@@ -234,11 +251,69 @@ class OnOffNode:
 
         return ops
 
-
 def OnOff_goal_test(node):
     if len(node.onlist) == 0 and len(node.offlist) == 0:
         return True
     else:
+        return False
+
+class BalanceNode:
+    def __init__(self, ship=None, parent=None, children=[], operation='', cost=0, depth=0):
+        self.ship       = ship
+        self.parent     = parent
+        self.children   = children
+        self.operation  = operation
+        self.cost       = cost
+        self.depth      = depth
+        
+    # Get mass on left-hand side of the ship.
+    def get_port_mass(self):
+        port_mass = 0
+        for y in range(0, self.ship.height):
+            for x in range (0, int(self.ship.width/2)):
+                index = x + (y*12)
+                curr_container = self.ship.grid[index]
+                port_mass += curr_container.weight
+        return port_mass
+
+    # Get mass on right-hand side of the ship.
+    def get_starboard_mass(self):
+        starboard_mass = 0
+        for y in range(0, self.ship.height):
+            for x in range (int(self.ship.width/2) + 1, self.ship.width):
+                index = x + (y*12)
+                curr_container = self.ship.grid[index]
+                starboard_mass += curr_container.weight
+        return starboard_mass
+
+    def available_spots(self):
+        arr_available_spots = []
+        for x in range(self.ship.width):
+            y = 0
+            curr_index = x + (y*12)
+            while((self.ship.grid[curr_index].name != "UNUSED") and (y < self.ship.height)):
+                y += 1
+                if (y != self.ship.height):
+                    curr_index = x + (y*12)
+            available_spot = self.ship.grid[curr_index]
+            if (available_spot.name == "UNUSED"):
+                arr_available_spots.append(available_spot)
+        return arr_available_spots
+    
+
+    def expand(self, empty_spaces):
+        expanded_nodes = []
+        
+        self.children = expanded_nodes
+        return expanded_nodes
+    
+    def balance_goal_test(self):
+        if (len(self.ship.bay) <= 1):
+            return True
+        elif((self.get_port_mass() >= (self.get_starboard_mass() * 0.9)) and
+                (self.get_port_mass() <= (self.get_starboard_mass() * 1.1))):
+                return True
+
         return False
 
 
@@ -246,9 +321,7 @@ def queueing_function(nodes):
     nodes.sort(key=lambda x: x.fn)
     return nodes
 
-
-def on_off_load():  # general search
-
+def on_off_load(ship):  # general search
     count = 0
     onlist = [Container(9, 1, 120, "test1"), Container(9, 1, 350, "test2")]     # list of containers
     offlist = [2]    # index (int) in grid
@@ -271,6 +344,34 @@ def on_off_load():  # general search
 
     print(operation_sequence)
 
+def balance_ship(init_ship_state):
+    node            = BalanceNode(init_ship_state)
+    frontier        = PriorityQueue()
+    explored        = []
+    max_queue_size  = 0
+    expand_count    = 0
+
+    frontier.put(node)
+    while (frontier.qsize() > 0):
+        if (frontier.empty()):
+            print("ERROR: Failure.")
+            return False
+        node = frontier.get()
+        if (node.balance_goal_test()):
+            # Found solution!
+            # Return sequence of operations.
+            pass
+        
+        # Add node to explored
+        # Get neighboring valid move positions.
+        # Expand node and get children.
+        expand_count    += 1
+        max_queue_size  = max(max_queue_size, frontier.qsize)
+        # Check if children already explored
+        # If not explored, put into frontier.
+    pass
+
+
 def main():
     """
     test_container = Container(1, 2, 96, 'Cat')
@@ -279,9 +380,19 @@ def main():
         print("Expected: 3, Actual ", test_container.get_dist(0, 0))
     print(test_container)
     """
-    login()
-    loadManifest()
-    on_off_load()
+    #login()
+    #path = input("Manifest File Path: ")
+    init_ship_state = loadManifest('tests/ShipCase4.txt')
+    print(init_ship_state)
+
+    test_node = BalanceNode(init_ship_state)
+    
+    """print("Port mass: ", test_node.get_port_mass())
+    print("Starboard mass: ", test_node.get_starboard_mass())
+    print("Balanced: ", test_node.is_balanced())"""
+
+    print(test_node.available_spots())
+    
+    #on_off_load(init_ship_state)
 
 main()
-
