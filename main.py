@@ -167,7 +167,7 @@ class OnOffNode:
         available_spots = []
         for i in range(12):
             row = 1
-            while self.grid[(row-1)*12 + i].name != "UNUSED" and row <= 8:
+            while row <= 8 and self.grid[(row-1)*12 + i].name != "UNUSED":
                 row = row + 1
 
             if row == 9:
@@ -182,10 +182,11 @@ class OnOffNode:
         nearest = spots[0]
         minDist = self.grid[spots[0]].get_dist(x, y)
         for i in range(len(spots)):
-            dist = self.grid[spots[i]].get_dist(x, y)
-            if dist < minDist:
-                minDist = dist
-                nearest = spots[i]
+            if (x != 9 and self.grid[spots[i]].yPos != y) or x == 9:
+                dist = self.grid[spots[i]].get_dist(x, y)
+                if dist < minDist:
+                    minDist = dist
+                    nearest = spots[i]
         return minDist, nearest     # return the minimum distance and the index of the nearest spot in grid
 
     def box_with_least_cost(self, boxes):   # the index of the box_with_least_cost and the cost
@@ -400,7 +401,7 @@ def traceback_solution(terminal_node):
 def on_off_load(ship):  # general search
     count = 0
     onlist = [Container(9, 1, 120, "test1"), Container(9, 1, 350, "test2")]     # list of containers
-    offlist = [2]    # index (int) in grid
+    offlist = [40]    # index (int) in grid
     global on_off_nodes
     new_grid = copy.deepcopy(ship.grid)
     on_off_nodes = [OnOffNode(new_grid, onlist, offlist, None, "first node", 0, 0)]
@@ -465,20 +466,20 @@ def balance_ship(init_ship_state):
 def main():
     #login()
     #path = input("Manifest File Path: ")
-    init_ship_state = loadManifest('tests/ShipCase2.txt')
-    print(init_ship_state)
-    print("Port mass: ", BalanceNode(init_ship_state).get_port_mass())
-    print("Starboard mass: ", BalanceNode(init_ship_state).get_starboard_mass())
-    print("Balanced: ", BalanceNode(init_ship_state).balance_goal_test())
-
-    final_state = (balance_ship(init_ship_state).ship)
-    print(final_state)
-    print("Port mass: ", BalanceNode(final_state).get_port_mass())
-    print("Starboard mass: ", BalanceNode(final_state).get_starboard_mass())
-    print("Balanced: ", BalanceNode(final_state).balance_goal_test())
-
-    #print(test_node.accessable_containers())
+    init_ship_state = loadManifest('tests/ShipCase4.txt')
+    # print(init_ship_state)
+    # print("Port mass: ", BalanceNode(init_ship_state).get_port_mass())
+    # print("Starboard mass: ", BalanceNode(init_ship_state).get_starboard_mass())
+    # print("Balanced: ", BalanceNode(init_ship_state).balance_goal_test())
+    #
+    # final_state = (balance_ship(init_ship_state).ship)
+    # print(final_state)
+    # print("Port mass: ", BalanceNode(final_state).get_port_mass())
+    # print("Starboard mass: ", BalanceNode(final_state).get_starboard_mass())
+    # print("Balanced: ", BalanceNode(final_state).balance_goal_test())
+    #
+    # #print(test_node.accessable_containers())
     
-    #on_off_load(init_ship_state)
+    on_off_load(init_ship_state)
 
 main()
