@@ -27,8 +27,6 @@ class Ship:
         self.grid[index_2].xPos = x_2
         self.grid[index_2].yPos = y_2
 
-
-
         # TODO: Change position values for moved containers in self.bay too
 
     # OUTPUT
@@ -303,7 +301,7 @@ class BalanceNode:
         return starboard_mass
 
     # Return all valid positions to move a container to.
-    def available_spots(self):
+    def available_spots(self, selected_container):
         arr_available_spots = []
         for x in range(self.ship.width):
             y = 0
@@ -313,7 +311,8 @@ class BalanceNode:
                 if (y != self.ship.height):
                     curr_index = x + (y*12)
             available_spot = self.ship.grid[curr_index]
-            if (available_spot.name == "UNUSED"):
+
+            if ((available_spot.name == "UNUSED") and (selected_container.yPos != available_spot.yPos)):
                 arr_available_spots.append(available_spot)
         return arr_available_spots
     
@@ -337,11 +336,16 @@ class BalanceNode:
         return arr_accessable_containers
 
     def expand(self, selected_container):
-        expanded_nodes = []
-        arr_available_spots         = self.available_spots()
-        
+        arr_available_spots         = self.available_spots(selected_container)
+        init_balance_offset         = abs(self.get_port_mass() - self.get_starboard_mass())
+
         x_1 = selected_container.xPos
         y_1 = selected_container.yPos
+
+        attempted_nodes     = []
+        attempted_weights   = []
+        attempted_distances = []
+        ship_states         = []
 
         for spot in arr_available_spots:
             x_2 = spot.xPos
@@ -350,22 +354,28 @@ class BalanceNode:
             child = BalanceNode(copy.deepcopy(self.ship))
             child.parent = self
             child.ship.swap(x_1, y_1, x_2, y_2)
-            
             child.operation =   ("Move Container \'"
                                 + selected_container.name
                                 +"\' at ["+str(x_1).zfill(2)+","+str(y_1).zfill(2)
                                 +"] to ["
                                 +str(x_2).zfill(2)+","+str(y_2).zfill(2)+"]")
-
             distance_heursitic  = selected_container.get_dist(x_2, y_2)
             balance_heuristic   = abs(child.get_port_mass() - child.get_starboard_mass())
-
             child.cost = distance_heursitic + balance_heuristic
             child.depth = self.depth + 1
 
-            expanded_nodes.append(child)                
+            if (balance_heuristic != init_balance_offset):
+                attempted_nodes.append(child)
+                attempted_distances.append(distance_heursitic)
+                attempted_weights.append(balance_heuristic)      
+            ship_states.append(child.ship)        
+        
+        expanded_nodes = select_best_balance_children(  attempted_weights, 
+                                                        list(set(attempted_weights)), 
+                                                        attempted_distances, 
+                                                        attempted_nodes)        
         self.children = expanded_nodes
-        return expanded_nodes
+        return expanded_nodes, ship_states
     
     def balance_goal_test(self):
         if (len(self.ship.bay) <= 1):
@@ -378,6 +388,23 @@ class BalanceNode:
 
     def __lt__(self, other):
         return self.cost < other.cost
+
+def select_best_balance_children(weights, unique_weights, attempted_distances, attempted_nodes):
+    best_nodes = []
+    for weight in unique_weights:
+            indicies = []
+            for idx, value in enumerate(weights):
+                if value == weight:
+                    indicies.append(idx)
+            curr_distances = []
+            curr_min_distance = 99999
+            curr_min_idx = -1
+            for idx in indicies:
+                if attempted_distances[idx] < curr_min_distance:
+                    curr_min_distance = attempted_distances[idx]
+                    curr_min_idx = idx
+            best_nodes.append(attempted_nodes[curr_min_idx])
+    return best_nodes
 
 def queueing_function(nodes):
     nodes.sort(key=lambda x: x.fn)
@@ -394,6 +421,7 @@ def traceback_solution(terminal_node):
 
     while(traceback_queue.empty() == False):
         curr_node = traceback_queue.get()
+        print(curr_node.ship)
         print(curr_node.operation)
         print('')
 
@@ -434,6 +462,8 @@ def balance_ship(init_ship_state):
     max_queue_size  = 0
     expand_count    = 0
 
+    max_depth       = 0
+
     frontier.put(node)
     while (frontier.qsize() > 0):
         if (frontier.empty()):
@@ -450,18 +480,27 @@ def balance_ship(init_ship_state):
         arr_accessable_containers   = node.accessable_containers()
         # Expand node and get children.
         node_children = []
+        explored_to_add = []
         for container in arr_accessable_containers:
-            node_children += node.expand(container)
+            expansion_op = node.expand(container)
+            node_children += expansion_op[0]
+            explored_to_add += expansion_op[1]
 
         expand_count    += 1
         max_queue_size  = max(max_queue_size, frontier.qsize())
+        max_depth       = max(max_depth, node.depth)
+
+        print("Expand Count: ",expand_count)
+        print("Max Depth Count: ",max_depth)
         # Check if children already explored
         # If not explored, put into frontier.
-        for child_node in node_children:
-            if (str(child_node.ship) not in explored):
-                frontier.put(child_node)
-            else:
-                pass
+        if (node.depth < 10):
+            for child_node in node_children:
+                if (str(child_node.ship) not in explored):
+                    frontier.put(child_node)
+                else:
+                    pass
+        explored += explored_to_add
 
     pass
 
@@ -504,8 +543,9 @@ def interface(ship):
 def main():
     #login()
     #path = input("Manifest File Path: ")
-    init_ship_state = loadManifest('tests/ShipCase4.txt')
-    # print(init_ship_state)
+    init_ship_state = loadManifest("tests/ShipCase4.txt")
+    print(init_ship_state)
+    print('\n')
     # print("Port mass: ", BalanceNode(init_ship_state).get_port_mass())
     # print("Starboard mass: ", BalanceNode(init_ship_state).get_starboard_mass())
     # print("Balanced: ", BalanceNode(init_ship_state).balance_goal_test())
@@ -517,7 +557,14 @@ def main():
     # print("Balanced: ", BalanceNode(final_state).balance_goal_test())
     #
     # #print(test_node.accessable_containers())
-    
+
+    #print("Testing load function...")
+    #on_off_load(init_ship_state)
+
+    print("Testing balance function...")
+    final_balance_state = balance_ship(init_ship_state)
+    #print(final_balance_state.ship)
     on_off_load(init_ship_state)
     interface(init_ship_state)
+
 main()
