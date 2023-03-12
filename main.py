@@ -521,8 +521,17 @@ def draw_grid(grid):
                 button = Button(text=grid[i*12+j].name, bg="#eb755e", fg="#ffffff", width=6, height=3).grid(row=8-row, column=col, padx=0.5, pady=0.5)
     midline = Label(text="", bg="#3498eb", height=31).grid(row=1, rowspan=8, column=6)
 
+def display_buffer():
+    midline = Label(text="Buffer:").grid(row=10, column=0)
+    temp = Frame(root)
+    temp.grid(row=11, column=0, columnspan=20)
+    for i in range(4):
+        for j in range(24):
+            button = Button(temp, bg="#000000", width=6, height=3).grid(row=11+4-i, column=j, padx=0.5, pady=0.5)
+
 
 def interface(ship):
+    global root
     root = Tk()
     root.title("On/Offload and Balancing")
     draw_grid(ship.grid)
@@ -530,13 +539,16 @@ def interface(ship):
     port_mass_label = Label(text="Port Mass: "+port_mass, fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=0)
     starboard_mass = "0"  # TODO: put actual starboard mass
     starboard_mass_label = Label(text="Starboard Mass: "+starboard_mass, fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=6)
-    midline = Label(text="", height=31).grid(row=1, rowspan=8, column=13)
+    midline = Label(text="", height=31, width=32).grid(row=1, rowspan=8, column=13)
     onload_entry_hint = Label(text="Add Containers(Name, Weight):", width=24, font=("Arial", 10)).grid(row=1, column=14, sticky=S)
-    entry = Entry(width=35).grid(row=2, column=14, padx=1, sticky=N)
-    add_onload_btn = Button(text="Add To Onload", bg="#e0e0e0", fg="#000000", width=15, height=1).grid(row=2, column=17, padx=7, sticky=N)
+    entry = Entry(width=40).grid(row=2, column=14, padx=1, sticky=N)
+    add_onload_btn = Button(text="Add To Onload", bg="#e0e0e0", fg="#000000", width=15, height=1).grid(row=2, column=15, padx=1, sticky=N)
     run_OnOffload = Button(text="Run On/Offload", bg="#e0e0e0", fg="#000000", width=15, height=1).grid(row=3, column=14, padx=7)
     run_balance = Button(text="Run Balance", bg="#e0e0e0", fg="#000000", width=15, height=1).grid(row=3, column=15, padx=7)
-    operation_display = Text(height = 5, width = 52).grid(row=4, column=14, columnspan=2, padx=7)
+    operation_display = Text(height=5, width=50).grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+    back_btn = Button(text="Back", bg="#e0e0e0", fg="#000000", width=10, height=1).grid(row=6, column=14, padx=7)
+    next_btn = Button(text="Next", bg="#e0e0e0", fg="#000000", width=10, height=1).grid(row=6, column=15, padx=7)
+    display_buffer()
     root.mainloop()
 
 
@@ -561,9 +573,9 @@ def main():
     #print("Testing load function...")
     #on_off_load(init_ship_state)
 
-    print("Testing balance function...")
-    final_balance_state = balance_ship(init_ship_state)
-    #print(final_balance_state.ship)
+    # print("Testing balance function...")
+    # final_balance_state = balance_ship(init_ship_state)
+    # print(final_balance_state.ship)
     on_off_load(init_ship_state)
     interface(init_ship_state)
 
