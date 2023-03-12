@@ -1,12 +1,11 @@
 import os, copy, math, queue
 from datetime import datetime
 from queue import PriorityQueue
+from tkinter import *
 
 class Ship:
     # REPRESENTATION
     def __init__(self, width, height, grid, bay):
-        onlist = []
-        offlist = []
         
         self.width  = width
         self.height = height
@@ -175,7 +174,7 @@ class OnOffNode:
             elif self.grid[(row-1)*12 + i].name == "UNUSED":
                 available_spots.append((row-1)*12 + i)
 
-        return  available_spots
+        return available_spots
 
     def nearest_available_spot(self, x, y):  # from x, y to nearest empty spot that's not on top of boxes need to be removed
         spots = self.available_spot()
@@ -415,11 +414,14 @@ def on_off_load(ship):  # general search
         node = on_off_nodes.pop(0)
 
     operation_sequence = ""
+    result_nodes = []
     while node != None:
         operation_sequence = node.operation_from_parent + "\n" + operation_sequence
+        result_nodes.insert(0, node)
         node = node.parent
 
     print(operation_sequence)
+    return result_nodes
 
 def balance_ship(init_ship_state):
     # HANGS ON ShipCase4.txt
@@ -463,6 +465,42 @@ def balance_ship(init_ship_state):
 
     pass
 
+def draw_grid(grid):
+    for i in range(8):
+        for j in range(12):
+            row = i
+            if j > 5:
+                col = j+1
+            else:
+                col = j
+            if grid[i*12+j].name == "NAN":
+                button = Button(bg="#000000", width=6, height=3).grid(row=8-row, column=col, padx=0.5, pady=0.5)
+            elif grid[i*12+j].name == "UNUSED":
+
+                button = Button(bg="#969696", width=6, height=3).grid(row=8-row, column=col, padx=0.5, pady=0.5)
+            else:
+                button = Button(text=grid[i*12+j].name, bg="#eb755e", fg="#ffffff", width=6, height=3).grid(row=8-row, column=col, padx=0.5, pady=0.5)
+    midline = Label(text="", bg="#3498eb", height=31).grid(row=1, rowspan=8, column=6)
+
+
+def interface(ship):
+    root = Tk()
+    root.title("On/Offload and Balancing")
+    draw_grid(ship.grid)
+    port_mass = "22182"  # TODO: put actual port mass
+    port_mass_label = Label(text="Port Mass: "+port_mass, fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=0)
+    starboard_mass = "0"  # TODO: put actual starboard mass
+    starboard_mass_label = Label(text="Starboard Mass: "+starboard_mass, fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=6)
+    midline = Label(text="", height=31).grid(row=1, rowspan=8, column=13)
+    onload_entry_hint = Label(text="Add Containers(Name, Weight):", width=24, font=("Arial", 10)).grid(row=1, column=14, sticky=S)
+    entry = Entry(width=35).grid(row=2, column=14, padx=1, sticky=N)
+    add_onload_btn = Button(text="Add To Onload", bg="#e0e0e0", fg="#000000", width=15, height=1).grid(row=2, column=17, padx=7, sticky=N)
+    run_OnOffload = Button(text="Run On/Offload", bg="#e0e0e0", fg="#000000", width=15, height=1).grid(row=3, column=14, padx=7)
+    run_balance = Button(text="Run Balance", bg="#e0e0e0", fg="#000000", width=15, height=1).grid(row=3, column=15, padx=7)
+    operation_display = Text(height = 5, width = 52).grid(row=4, column=14, columnspan=2, padx=7)
+    root.mainloop()
+
+
 def main():
     #login()
     #path = input("Manifest File Path: ")
@@ -481,5 +519,5 @@ def main():
     # #print(test_node.accessable_containers())
     
     on_off_load(init_ship_state)
-
+    interface(init_ship_state)
 main()
