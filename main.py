@@ -82,10 +82,8 @@ class Container:
     def cost(self):
         pass
 
-    def is_target(self, xPos, yPos):
-        if ((xPos == self.xPos) and (yPos == self.yPos)):
-            return True
-        return False
+    def get_index(self):
+        return (self.yPos -1) + ((self.xPos - 1) * 12)
 
     # OUTPUT
     # Used for outputting to new Manifest.
@@ -272,13 +270,14 @@ def OnOff_goal_test(node):
         return False
 
 class BalanceNode:
-    def __init__(self, ship=None, parent=None, children=[], operation='', cost=0, depth=0):
-        self.ship       = ship
-        self.parent     = parent
-        self.children   = children
-        self.operation  = operation
-        self.cost       = cost
-        self.depth      = depth
+    def __init__(self, ship=None, parent=None, children=[], operation='Start balancing', cost=0, estimated_time = 0, depth=0):
+        self.ship           = ship
+        self.parent         = parent
+        self.children       = children
+        self.operation      = operation
+        self.cost           = cost
+        self.estimated_time = estimated_time
+        self.depth          = depth
         
     # Get mass on left-hand side of the ship.
     def get_port_mass(self):
@@ -299,6 +298,28 @@ class BalanceNode:
                 curr_container = self.ship.grid[index]
                 starboard_mass += curr_container.weight
         return starboard_mass
+
+    # Get containers on left-hand side of the ship.
+    def get_port_containers(self):
+        port_containers = []
+        for y in range(0, self.ship.height):
+            for x in range (0, int(self.ship.width/2)):
+                index = x + (y*12)
+                curr_container = self.ship.grid[index]
+                if ((curr_container.name != 'NAN') and (curr_container.name != 'UNUSED')):
+                    port_containers.append(curr_container.name)
+        return sorted(port_containers)
+
+    # Get containers on right-hand side of the ship.
+    def get_starboard_containers(self):
+        starboard_containers = []
+        for y in range(0, self.ship.height):
+            for x in range (int(self.ship.width/2), self.ship.width):
+                index = x + (y*12)
+                curr_container = self.ship.grid[index]
+                if ((curr_container.name != 'NAN') and (curr_container.name != 'UNUSED')):
+                    starboard_containers.append(curr_container.name)
+        return sorted(starboard_containers)
 
     # Return all valid positions to move a container to.
     def available_spots(self, selected_container):
@@ -345,7 +366,6 @@ class BalanceNode:
         attempted_nodes     = []
         attempted_weights   = []
         attempted_distances = []
-        ship_states         = []
 
         for spot in arr_available_spots:
             x_2 = spot.xPos
@@ -354,37 +374,90 @@ class BalanceNode:
             child = BalanceNode(copy.deepcopy(self.ship))
             child.parent = self
             child.ship.swap(x_1, y_1, x_2, y_2)
-            child.operation =   ("Move Container \'"
-                                + selected_container.name
-                                +"\' at ["+str(x_1).zfill(2)+","+str(y_1).zfill(2)
-                                +"] to ["
-                                +str(x_2).zfill(2)+","+str(y_2).zfill(2)+"]")
-            distance_heursitic  = selected_container.get_dist(x_2, y_2)
-            balance_heuristic   = abs(child.get_port_mass() - child.get_starboard_mass())
-            child.cost = distance_heursitic + balance_heuristic
-            child.depth = self.depth + 1
+            child.operation         =   ("Move Container \'"
+                                        + selected_container.name
+                                        +"\' at ["+str(x_1).zfill(2)+","+str(y_1).zfill(2)
+                                        +"] to ["
+                                        +str(x_2).zfill(2)+","+str(y_2).zfill(2)+"]")
+            distance_heursitic      = selected_container.get_dist(x_2, y_2)
+            balance_heuristic       = abs(child.get_port_mass() - child.get_starboard_mass())
+            child.cost              = distance_heursitic + balance_heuristic
+            child.depth             = self.depth + 1
+            child.estimated_time    = distance_heursitic
 
             if (balance_heuristic != init_balance_offset):
                 attempted_nodes.append(child)
                 attempted_distances.append(distance_heursitic)
-                attempted_weights.append(balance_heuristic)      
-            ship_states.append(child.ship)        
+                attempted_weights.append(balance_heuristic)       
         
         expanded_nodes = select_best_balance_children(  attempted_weights, 
                                                         list(set(attempted_weights)), 
                                                         attempted_distances, 
                                                         attempted_nodes)        
         self.children = expanded_nodes
-        return expanded_nodes, ship_states
+        return expanded_nodes
     
+    def expand_SIFT(self, goal_grid):
+        _parent_operation = self.operation
+        _child_operations = []
+
+
+        expanded_nodes              = []
+        arr_accessable_containers   = self.accessable_containers()
+        for selected_container in arr_accessable_containers:
+            c_i = selected_container.get_index()
+            goal_spot = goal_grid[c_i]
+            if ((goal_spot.name != selected_container.name) or (goal_spot.weight != selected_container.weight)):
+                move_spot       = None
+                move_spot_index = 0
+                x_1             = selected_container.xPos
+                y_1             = selected_container.yPos
+
+                while (move_spot == None):
+                    if ((goal_grid[move_spot_index].name == selected_container.name) and 
+                        (goal_grid[move_spot_index].weight == selected_container.weight)):
+                        move_spot = goal_grid[move_spot_index]
+                    else:
+                        move_spot_index += 1
+
+                x_2 = move_spot.xPos
+                y_2 = move_spot.yPos
+
+                container_at_move_spot = self.ship.grid[move_spot_index]
+
+                if ((container_at_move_spot.name == "UNUSED") and ((x_1 != x_2) or (y_1 != y_2))):
+                    child = BalanceNode(copy.deepcopy(self.ship))
+                    child.parent = self
+                    child.ship.swap(x_1, y_1, x_2, y_2)
+                    child.operation         =   ("Move Container \'"
+                                                + selected_container.name
+                                                +"\' at ["+str(x_1).zfill(2)+","+str(y_1).zfill(2)
+                                                +"] to ["
+                                                +str(x_2).zfill(2)+","+str(y_2).zfill(2)+"]")
+                    distance_heursitic      = selected_container.get_dist(x_2, y_2)
+                    child.cost              = distance_heursitic
+                    child.depth             = self.depth + 1
+                    child.estimated_time    = distance_heursitic
+                    expanded_nodes.append(child)
+                    _child_operations.append(child.operation)
+
+        self.children = expanded_nodes
+        return expanded_nodes
+
     def balance_goal_test(self):
         if (len(self.ship.bay) <= 1):
             return True
         elif((self.get_port_mass() >= (self.get_starboard_mass() * 0.9)) and
                 (self.get_port_mass() <= (self.get_starboard_mass() * 1.1))):
                 return True
-
         return False
+
+    def SIFT_goal_test(self, goal_grid):
+        for i in range(0, len(goal_grid)):
+            if ((self.ship.grid[i].name != goal_grid[i].name) and
+                (self.ship.grid[i].weight != goal_grid[i].weight)):
+                return False
+        return True
 
     def __lt__(self, other):
         return self.cost < other.cost
@@ -406,12 +479,60 @@ def select_best_balance_children(weights, unique_weights, attempted_distances, a
             best_nodes.append(attempted_nodes[curr_min_idx])
     return best_nodes
 
+def get_SIFT_goal_state(ship):
+    # Hard-coded as all expected ship sizes have 12 columns.
+    column_order = [6, 7, 5, 8, 4, 9, 3, 10, 2, 11, 1, 12]
+
+    goal_grid = copy.deepcopy(ship.grid)
+    sorted_containers = queue.Queue()
+    for y in range(ship.height - 1, -1, -1):
+        for x in range(0, ship.width):
+            index = x + (y*12)
+            curr_container = goal_grid[index]
+            if ((curr_container.name != "UNUSED") and (curr_container.name != "NAN")):
+                curr_container.name = "UNUSED"
+                curr_container.weight = 0
+    
+    tmp_bay = copy.deepcopy(ship.bay)
+
+    heaviest_container  = None
+    heaviest_weight     = 0
+    while (len(tmp_bay) != 0):
+        i = len(tmp_bay) - 1
+        while (i >= 0):
+            if (tmp_bay[i].weight > heaviest_weight):
+                heaviest_container  = tmp_bay[i]
+                heaviest_weight     = heaviest_weight
+            i -= 1
+
+        sorted_containers.put(heaviest_container)    
+        tmp_bay.remove(heaviest_container)
+        heaviest_container  = None
+        heaviest_weight     = 0
+
+    row = 1
+    i = 0
+    while (sorted_containers.empty() == False):
+        index = ((column_order[i]) -1) + ((row -1) * 12)
+        curr_pos = goal_grid[index]
+        if (curr_pos.name == "UNUSED"):
+            curr_container  = sorted_containers.get()
+            curr_pos.name   = curr_container.name
+            curr_pos.weight = curr_container.weight
+        i += 1
+        if (i >= 12):
+            i = 0
+            row += 1
+        
+    return goal_grid
+
 def queueing_function(nodes):
     nodes.sort(key=lambda x: x.fn)
     return nodes
 
 def traceback_solution(terminal_node):
     traceback_queue = queue.LifoQueue()
+    ret_node_path   = []
 
     curr_node = terminal_node
     traceback_queue.put(curr_node)
@@ -424,6 +545,9 @@ def traceback_solution(terminal_node):
         print(curr_node.ship)
         print(curr_node.operation)
         print('')
+        ret_node_path.append(curr_node)
+
+    return ret_node_path
 
 def on_off_load(ship):  # general search
     count = 0
@@ -451,17 +575,52 @@ def on_off_load(ship):  # general search
     print(operation_sequence)
     return result_nodes
 
-def balance_ship(init_ship_state):
-    # HANGS ON ShipCase4.txt
-    # TODO: Optimize to prevent creation of unncessary nodes.
-    # Try eliminating child nodes with same heuristic score in node.expand()?
+def balance_ship_SIFT(init_ship_state):
+    node            = BalanceNode(init_ship_state)
+    node.operation  = "Start balancing, SIFT required!"
+    frontier        = PriorityQueue()
+    explored        = []
+    max_queue_size  = 0
+    expand_count    = 0
+    max_depth       = 0
+    goal_grid       = get_SIFT_goal_state(init_ship_state)
 
+    frontier.put(node)
+    while (frontier.qsize() > 0):
+        if (frontier.empty()):
+            print("ERROR: Failure.")
+            return False
+        node = frontier.get()
+        if (node.SIFT_goal_test(goal_grid)):
+            return traceback_solution(node)
+
+        explored.append(node.ship.grid)
+        node_children = node.expand_SIFT(goal_grid)
+
+        expand_count    += 1
+        max_queue_size  = max(max_queue_size, frontier.qsize())
+        max_depth       = max(max_depth, node.depth)
+
+        # Check if children already explored
+        # If not explored, put into frontier.
+        for child_node in node_children:
+            state_found = True
+            for curr_grid in explored:
+                for i in range(0, len(curr_grid)):
+                    if( (curr_grid[i].name != child_node.ship.grid[i].name )and 
+                        (curr_grid[i].weight != child_node.ship.grid[i].weight)):
+                        state_found = False
+                if (state_found == False):
+                    frontier.put(child_node)
+            else:
+                pass
+
+def balance_ship(init_ship_state):
     node            = BalanceNode(init_ship_state)
     frontier        = PriorityQueue()
     explored        = []
     max_queue_size  = 0
     expand_count    = 0
-
     max_depth       = 0
 
     frontier.put(node)
@@ -473,36 +632,41 @@ def balance_ship(init_ship_state):
         if (node.balance_goal_test()):
             # Found solution!
             # Return sequence of operations.
-            traceback_solution(node)
-            return node
+            return traceback_solution(node)
         
-        explored.append(str(node.ship))
+        to_explored = []
+        to_explored.append(node.get_port_containers())
+        to_explored.append(node.get_starboard_containers())
+
+        explored.append(to_explored)
         arr_accessable_containers   = node.accessable_containers()
         # Expand node and get children.
         node_children = []
-        explored_to_add = []
+
         for container in arr_accessable_containers:
-            expansion_op = node.expand(container)
-            node_children += expansion_op[0]
-            explored_to_add += expansion_op[1]
+            node_children += node.expand(container)
 
         expand_count    += 1
         max_queue_size  = max(max_queue_size, frontier.qsize())
         max_depth       = max(max_depth, node.depth)
 
-        print("Expand Count: ",expand_count)
-        print("Max Depth Count: ",max_depth)
         # Check if children already explored
         # If not explored, put into frontier.
-        if (node.depth < 10):
-            for child_node in node_children:
-                if (str(child_node.ship) not in explored):
-                    frontier.put(child_node)
-                else:
-                    pass
-        explored += explored_to_add
+        for child_node in node_children:
+            to_explored = []
+            to_explored.append(child_node.get_port_containers())
+            to_explored.append(child_node.get_starboard_containers())
 
-    pass
+            state_found = False
+            for state in explored:
+                if ((state[0] == to_explored[0]) and (state[1] == to_explored[1])):
+                    state_found = True
+            if (state_found == False):
+                frontier.put(child_node)
+            else:
+                pass
+    # If this point is reach, SIFT needs to be conducted.
+    return balance_ship_SIFT(init_ship_state)
 
 def draw_grid(grid):
     for i in range(8):
@@ -529,7 +693,6 @@ def display_buffer():
         for j in range(24):
             button = Button(temp, bg="#000000", width=6, height=3).grid(row=11+4-i, column=j, padx=0.5, pady=0.5)
 
-
 def interface(ship):
     global root
     root = Tk()
@@ -551,32 +714,23 @@ def interface(ship):
     display_buffer()
     root.mainloop()
 
-
 def main():
-    #login()
-    #path = input("Manifest File Path: ")
-    init_ship_state = loadManifest("tests/ShipCase4.txt")
+    login()
+    path = input("Manifest File Path: ")
+
+    init_ship_state = loadManifest(path)
     print(init_ship_state)
-    print('\n')
-    # print("Port mass: ", BalanceNode(init_ship_state).get_port_mass())
-    # print("Starboard mass: ", BalanceNode(init_ship_state).get_starboard_mass())
-    # print("Balanced: ", BalanceNode(init_ship_state).balance_goal_test())
-    #
-    # final_state = (balance_ship(init_ship_state).ship)
-    # print(final_state)
-    # print("Port mass: ", BalanceNode(final_state).get_port_mass())
-    # print("Starboard mass: ", BalanceNode(final_state).get_starboard_mass())
-    # print("Balanced: ", BalanceNode(final_state).balance_goal_test())
-    #
-    # #print(test_node.accessable_containers())
-
-    #print("Testing load function...")
-    #on_off_load(init_ship_state)
-
-    # print("Testing balance function...")
-    # final_balance_state = balance_ship(init_ship_state)
-    # print(final_balance_state.ship)
+    print("\nTesting load function...")
     on_off_load(init_ship_state)
+
+    print("Testing balance function...")
+    final_balance_state = balance_ship(init_ship_state)
+    print("Port mass: ", final_balance_state[-1].get_port_mass())
+    print("Starboard mass: ", final_balance_state[-1].get_starboard_mass())
+    print("Balanced: ", final_balance_state[-1].balance_goal_test())
+    if ("SIFT" in (final_balance_state[0].operation)):
+        print("A balanced ship is impossible, ship is legally balanced using SIFT.")
+    
     interface(init_ship_state)
 
 main()
