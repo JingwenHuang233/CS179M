@@ -427,11 +427,15 @@ def traceback_solution(terminal_node):
 
 def on_off_load(ship):  # general search
     count = 0
-    onlist = [Container(9, 1, 120, "test1"), Container(9, 1, 350, "test2")]     # list of containers
-    offlist = [40]    # index (int) in grid
+    global onlist
+    global offlist
+    # onlist = [Container(9, 1, 120, "test1"), Container(9, 1, 350, "test2")]     # list of containers
+    # offlist = [40]    # index (int) in grid
+    print(len(onlist))
+    print(len(offlist))
     global on_off_nodes
     new_grid = copy.deepcopy(ship.grid)
-    on_off_nodes = [OnOffNode(new_grid, onlist, offlist, None, "first node", 0, 0)]
+    on_off_nodes = [OnOffNode(new_grid, onlist, offlist, None, "Start On/Offload", 0, 0)]
     node = on_off_nodes.pop(0)
     while not OnOff_goal_test(node):
         expanded_nodes = node.expand()    # 2 operations so 2 new nodes
@@ -447,7 +451,8 @@ def on_off_load(ship):  # general search
         operation_sequence = node.operation_from_parent + "\n" + operation_sequence
         result_nodes.insert(0, node)
         node = node.parent
-
+    onlist = []
+    offlist = []
     print(operation_sequence)
     return result_nodes
 
@@ -515,22 +520,93 @@ def draw_grid(grid):
             if grid[i*12+j].name == "NAN":
                 button = Button(bg="#000000", width=6, height=3).grid(row=8-row, column=col, padx=0.5, pady=0.5)
             elif grid[i*12+j].name == "UNUSED":
-
                 button = Button(bg="#969696", width=6, height=3).grid(row=8-row, column=col, padx=0.5, pady=0.5)
             else:
-                button = Button(text=grid[i*12+j].name, bg="#eb755e", fg="#ffffff", width=6, height=3).grid(row=8-row, column=col, padx=0.5, pady=0.5)
+                button = Button(text=grid[i*12+j].name, bg="#eb755e", fg="#ffffff", width=6, height=3, command=lambda index=i*12+j: add_to_offload(grid, index)).grid(row=8-row, column=col, padx=0.5, pady=0.5)
     midline = Label(text="", bg="#3498eb", height=31).grid(row=1, rowspan=8, column=6)
 
 def display_buffer():
-    midline = Label(text="Buffer:").grid(row=10, column=0)
+    midline = Label(text="Buffer:").grid(row=11, column=0)
     temp = Frame(root)
-    temp.grid(row=11, column=0, columnspan=20)
+    temp.grid(row=12, column=0, columnspan=15)
     for i in range(4):
         for j in range(24):
-            button = Button(temp, bg="#000000", width=6, height=3).grid(row=11+4-i, column=j, padx=0.5, pady=0.5)
+            button = Button(temp, bg="#969696", width=4, height=2).grid(row=12+4-i, column=j, padx=0.5, pady=0.5)
 
+
+def run_load(ship):
+    global load_result_nodes
+    load_result_nodes = on_off_load(ship)
+    global curr_load_node
+    curr_load_node = 0
+    draw_grid(load_result_nodes[curr_load_node].grid)
+    global text_display_str
+    text_display_str = load_result_nodes[curr_load_node].operation_from_parent
+    text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+
+def next_operation():
+    global curr_load_node
+    global load_result_nodes
+    curr_load_node += 1
+    if curr_load_node == len(load_result_nodes):
+        text_display = Label(text="Done", height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+        return
+    elif curr_load_node > len(load_result_nodes):
+        curr_load_node = len(load_result_nodes)
+        return
+    draw_grid(load_result_nodes[curr_load_node].grid)
+    global text_display_str
+    text_display_str = load_result_nodes[curr_load_node].operation_from_parent
+    text_display_str = "Estimated Time: "+ str(load_result_nodes[curr_load_node].estimated_time)+" minutes\n"+load_result_nodes[curr_load_node].operation_from_parent
+    text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+
+def back_operation():
+    global curr_load_node
+    global load_result_nodes
+    global text_display_str
+    curr_load_node -= 1
+    if curr_load_node == 0:
+        text_display_str = load_result_nodes[curr_load_node].operation_from_parent
+        text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+        draw_grid(load_result_nodes[curr_load_node].grid)
+        return
+    elif curr_load_node < 0:
+        curr_load_node = 0
+        return
+    draw_grid(load_result_nodes[curr_load_node].grid)
+    text_display_str = load_result_nodes[curr_load_node].operation_from_parent
+    text_display_str = "Estimated Time: "+ str(load_result_nodes[curr_load_node].estimated_time)+" minutes\n"+load_result_nodes[curr_load_node].operation_from_parent
+    text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+
+def print_on_off_list(grid):
+    global onlist
+    global offlist
+    global text_display_str
+    text_display_str = "Onlist: "
+    for i in range(len(onlist)):
+        text_display_str += "\t"+onlist[i].name + ", "
+    text_display_str += "\nOfflist: "
+    for i in range(len(offlist)):
+        text_display_str += "\t"+grid[offlist[i]].name + ", "
+    text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+
+def add_to_onload(grid,input):
+    global onlist
+    info = input.get().split(",")
+    print(info[1], info[0])
+    onlist.append(Container(9, 1, info[1], info[0]))
+    input.delete(0, END)
+    print_on_off_list(grid)
+
+def add_to_offload(grid, index):
+    global offlist
+    print(index)
+    offlist.append(index)
+    print_on_off_list(grid)
 
 def interface(ship):
+    global text_display_str
+    text_display_str = ""
     global root
     root = Tk()
     root.title("On/Offload and Balancing")
@@ -539,22 +615,27 @@ def interface(ship):
     port_mass_label = Label(text="Port Mass: "+port_mass, fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=0)
     starboard_mass = "0"  # TODO: put actual starboard mass
     starboard_mass_label = Label(text="Starboard Mass: "+starboard_mass, fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=6)
-    midline = Label(text="", height=31, width=32).grid(row=1, rowspan=8, column=13)
+    midline = Label(text="", height=31, width=5).grid(row=1, rowspan=8, column=13)
     onload_entry_hint = Label(text="Add Containers(Name, Weight):", width=24, font=("Arial", 10)).grid(row=1, column=14, sticky=S)
-    entry = Entry(width=40).grid(row=2, column=14, padx=1, sticky=N)
-    add_onload_btn = Button(text="Add To Onload", bg="#e0e0e0", fg="#000000", width=15, height=1).grid(row=2, column=15, padx=1, sticky=N)
-    run_OnOffload = Button(text="Run On/Offload", bg="#e0e0e0", fg="#000000", width=15, height=1).grid(row=3, column=14, padx=7)
+    entry = Entry(width=40)
+    entry_display = entry.grid(row=2, column=14, padx=1, sticky=N)
+    add_onload_btn = Button(text="Add To Onload", bg="#e0e0e0", fg="#000000", width=15, height=1, command=lambda: add_to_onload(ship.grid,entry)).grid(row=2, column=15, padx=1, sticky=N)
+    run_OnOffload = Button(text="Run On/Offload", bg="#e0e0e0", fg="#000000", width=15, height=1, command=lambda: run_load(ship)).grid(row=3, column=14, padx=7)
     run_balance = Button(text="Run Balance", bg="#e0e0e0", fg="#000000", width=15, height=1).grid(row=3, column=15, padx=7)
-    operation_display = Text(height=5, width=50).grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
-    back_btn = Button(text="Back", bg="#e0e0e0", fg="#000000", width=10, height=1).grid(row=6, column=14, padx=7)
-    next_btn = Button(text="Next", bg="#e0e0e0", fg="#000000", width=10, height=1).grid(row=6, column=15, padx=7)
+    comment = Text(height=10, width=50, bg="#ffffff")
+    comment_display = comment.grid(row=6, rowspan=3, column=14, columnspan=3, padx=7)
+    submit_comment = Button(text="Comment", bg="#e0e0e0", fg="#000000", width=10, height=1, command=lambda: [addLogComment(comment.get(1.0, END)), comment.delete(1.0, END)]).grid(row=8, column=17, padx=7, pady=2)
+    back_btn = Button(text="Back", bg="#e0e0e0", fg="#000000", width=10, height=1, command=back_operation).grid(row=10, column=14, padx=7, pady=2)
+    next_btn = Button(text="Next", bg="#e0e0e0", fg="#000000", width=10, height=1, command=next_operation).grid(row=10, column=15, padx=7)
     display_buffer()
+
     root.mainloop()
 
 
 def main():
     #login()
     #path = input("Manifest File Path: ")
+    global init_ship_state
     init_ship_state = loadManifest("tests/ShipCase4.txt")
     print(init_ship_state)
     print('\n')
@@ -576,7 +657,13 @@ def main():
     # print("Testing balance function...")
     # final_balance_state = balance_ship(init_ship_state)
     # print(final_balance_state.ship)
-    on_off_load(init_ship_state)
+    # on_off_load(init_ship_state)
+    global load_result_nodes
+    global curr_load_node
+    global onlist
+    onlist = []
+    global offlist
+    offlist = []
     interface(init_ship_state)
 
 main()
