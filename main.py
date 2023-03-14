@@ -688,9 +688,9 @@ def draw_grid(grid):
             if grid[i*12+j].name == "NAN":
                 button = Button(bg="#000000", width=6, height=3).grid(row=8-row, column=col, padx=0.5, pady=0.5)
             elif grid[i*12+j].name == "UNUSED":
-                button = Button(bg="#969696", width=6, height=3).grid(row=8-row, column=col, padx=0.5, pady=0.5)
+                button = Button(bg="#969696", width=6, height=3).grid(row=8-row, column=col,  padx=0.5,pady=0.5)
             else:
-                button = Button(text=grid[i*12+j].name, bg="#eb755e", fg="#ffffff", width=6, height=3, command=lambda index=i*12+j: add_to_offload(grid, index)).grid(row=8-row, column=col, padx=0.5, pady=0.5)
+                button = Button(text=grid[i*12+j].name, bg="#eb755e", fg="#ffffff", width=6, height=3, command=lambda index=i*12+j: add_to_offload(grid, index)).grid(row=8-row, column=col, padx=0.5,pady=0.5)
     midline = Label(text="", bg="#3498eb", height=31).grid(row=1, rowspan=8, column=6)
 
 def display_buffer():
@@ -789,7 +789,7 @@ def print_on_off_list(grid):
         text_display_str += "\t"+grid[offlist[i]].name + ", "
     text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
 
-def add_to_onload(grid,input):
+def add_to_onload(grid, input):
     global onlist
     info = input.get().split(",")
     print(info[1], info[0])
@@ -843,7 +843,7 @@ def interface(ship):
     onload_entry_hint = Label(text="Add Containers(Name, Weight):", width=24, font=("Arial", 10)).grid(row=1, column=14, sticky=S)
     entry = Entry(width=40)
     entry_display = entry.grid(row=2, column=14, padx=1, sticky=N)
-    add_onload_btn = Button(text="Add To Onload", bg="#e0e0e0", fg="#000000", width=15, height=1, command=lambda: add_to_onload(ship.grid,entry)).grid(row=2, column=15, padx=1, sticky=N)
+    add_onload_btn = Button(text="Add To Onload", bg="#e0e0e0", fg="#000000", width=15, height=1, command=lambda: add_to_onload(ship.grid, entry)).grid(row=2, column=15, padx=1, sticky=N)
     run_OnOffload = Button(text="Run On/Offload", bg="#e0e0e0", fg="#000000", width=15, height=1, command=lambda: run_load(ship)).grid(row=3, column=14, padx=7)
     run_balance = Button(text="Run Balance", bg="#e0e0e0", fg="#000000", width=15, height=1, command=lambda: run_balancing(ship)).grid(row=3, column=15, padx=7)
     comment = Text(height=10, width=50, bg="#ffffff")
@@ -860,11 +860,27 @@ def signout():
     str = username + " signs out\n"
     addLogComment(str)
 
+def updateManifest():
+    global manifest_name
+    desktop = os.path.expanduser("~\Desktop\\")
+    filename = desktop + manifest_name+"OUTBOUND.txt"
+    print(filename)
+    f = open(filename, "w")
+    global init_ship_state
+    grid = init_ship_state.grid
+    for i in range(len(grid)):
+        temp = str(grid[i])+"\n"
+        f.write(temp)
+    f.close()
+
 def main():
     login()
-    #path = input("Manifest File Path: ")
+    path = input("Manifest File Path: ")
     global init_ship_state
-    init_ship_state = loadManifest("tests/ShipCase4.txt")
+    global manifest_name
+    manifest_name = path.split("/")[1].split(".txt")[0]
+    print(manifest_name)
+    init_ship_state = loadManifest(path)
     print(init_ship_state)
     print('\n')
     # print("Port mass: ", BalanceNode(init_ship_state).get_port_mass())
@@ -908,6 +924,7 @@ def main():
     #     print("A balanced ship is impossible, ship is legally balanced using SIFT.")
     interface(init_ship_state)
     signout()
+    updateManifest()
 
 
 main()
