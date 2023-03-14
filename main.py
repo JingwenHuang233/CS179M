@@ -105,8 +105,9 @@ def login():
     print("""===========================================
                 Log In
 ===========================================""")
-    name = input("Your Full Name: ")
-    str = name + " signs in\n"
+    global username
+    username = input("Your Full Name: ")
+    str = username + " signs in\n"
     addLogComment(str)
     
 def loadManifest(manifest_file_path):
@@ -134,6 +135,8 @@ def loadManifest(manifest_file_path):
 
     ret_ship    = Ship(12, 8, grid, bay)
     f.close()
+    temp = "Manifest " + manifest_file_path + " is opened, there are " + str(len(bay)) + " containers on the ship.\n"
+    addLogComment(temp)
     return ret_ship
 
 class OnOffNode:
@@ -712,13 +715,16 @@ def run_load(ship):
         if grid[i].name != "NAN" and grid[i].name != "UNUSED":
             bay.append(grid[i])
     init_ship_state = Ship(12, 8, grid, bay)
-    print(init_ship_state)
     global curr_load_node
     curr_load_node = 0
     draw_grid(solution_nodes[curr_load_node].grid)
+
     global text_display_str
     text_display_str = solution_nodes[curr_load_node].operation
     text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+    print(solution_nodes[curr_load_node].operation.split(" ")[0])
+
+
 
 def next_operation():
     global curr_load_node
@@ -740,6 +746,12 @@ def next_operation():
         port_mass_label = Label(text="Port Mass: "+str(port_mass), fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=0)
         starboard_mass = solution_nodes[curr_load_node].get_starboard_mass()  # TODO: put actual starboard mass
         starboard_mass_label = Label(text="Starboard Mass: "+ str(starboard_mass), fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=6)
+    if solution_nodes[curr_load_node].operation.split(" ")[0] == "Load":
+        temp = solution_nodes[curr_load_node].operation.split(" ")[1] + " is onloaded.\n"
+        addLogComment(temp)
+    elif solution_nodes[curr_load_node].operation.split(" ")[0] == "Remove":
+        temp = solution_nodes[curr_load_node].operation.split(" ")[1] + " is offloaded.\n"
+        addLogComment(temp)
 
 def back_operation():
     global curr_load_node
@@ -797,6 +809,13 @@ def run_balancing(ship):
     global solution_nodes
     global init_ship_state
     solution_nodes = balance_ship(init_ship_state)
+    bay = []
+    grid = []
+    grid = solution_nodes[len(solution_nodes)-1].grid
+    for i in range(len(grid)):
+        if grid[i].name != "NAN" and grid[i].name != "UNUSED":
+            bay.append(grid[i])
+    init_ship_state = Ship(12, 8, grid, bay)
     global curr_load_node
     curr_load_node = 0
     draw_grid(solution_nodes[curr_load_node].grid)
@@ -836,11 +855,16 @@ def interface(ship):
 
     root.mainloop()
 
+def signout():
+    global username
+    str = username + " signs out\n"
+    addLogComment(str)
+
 def main():
-    #login()
+    login()
     #path = input("Manifest File Path: ")
     global init_ship_state
-    init_ship_state = loadManifest("tests/ShipCase1.txt")
+    init_ship_state = loadManifest("tests/ShipCase4.txt")
     print(init_ship_state)
     print('\n')
     # print("Port mass: ", BalanceNode(init_ship_state).get_port_mass())
@@ -883,5 +907,7 @@ def main():
     # if ("SIFT" in (final_balance_state[0].operation)):
     #     print("A balanced ship is impossible, ship is legally balanced using SIFT.")
     interface(init_ship_state)
+    signout()
+
 
 main()
