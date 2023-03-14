@@ -1,0 +1,13 @@
+March 13 2023: 21:03 Shiloh Felix signs in
+March 13 2023: 21:03 Manifest tests/ShipCase4.txt is opened, there are 7 containers on the ship.
+March 13 2023: 21:03 Shiloh Felix signs out
+March 13 2023: 21:03 Shiloh Felix signs in
+March 13 2023: 21:03 Manifest tests/ShipCase4.txt is opened, there are 7 containers on the ship.
+March 13 2023: 21:03 'Pig' is offloaded.
+March 13 2023: 21:04 'Pig' is offloaded.
+March 13 2023: 21:04 'test1' is onloaded.
+March 13 2023: 21:05 'test1' is onloaded.
+March 13 2023: 21:10 Shiloh Felix signs in
+March 13 2023: 21:10 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 13 2023: 21:12 'Dog' is offloaded.
+March 13 2023: 21:12 Shiloh Felix signs out
