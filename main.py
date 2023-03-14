@@ -6,7 +6,6 @@ from tkinter import *
 class Ship:
     # REPRESENTATION
     def __init__(self, width, height, grid, bay):
-        
         self.width  = width
         self.height = height
         self.grid   = grid
@@ -54,17 +53,51 @@ class Ship:
 
 class Buffer:
     # REPRESENTATION
-    def __init__(self):
-        pass
+    def __init__(self, grid, containers=None):
+        self.width          = 24
+        self.height         = 4
+        self.grid           = grid
+        self.containers     = containers
 
     # OPERATORS
     # Where definitions for move, balance, and swap containers operators go.
+    def swap(self, x_1, y_1, x_2, y_2):
+        index_1 = (y_1 - 1) + ((x_1 -1) * 12)
+        index_2 = (y_2 - 1) + ((x_2 -1) * 12)
+
+        tmp_container = copy.deepcopy(self.grid[index_1])
+        self.grid[index_1] = self.grid[index_2]
+        self.grid[index_1].xPos = x_1
+        self.grid[index_1].yPos = y_1
+
+        self.grid[index_2] = tmp_container
+        self.grid[index_2].xPos = x_2
+        self.grid[index_2].yPos = y_2
+
+        # TODO: Change position values for moved containers in self.bay too
 
     # OUTPUT
-    # For terminal display visualization, decide how to display walls, empty spaces, and containers.
-    # Should look like a grid.
+    # For terminal display visualization. Useful for displaying each state.
+    # Invalid slots (NAN) are displayed as '█'.
+    # Empty slots (UNUSED) are displayed as '-'.
+    # Containers are displayed as the first letter of their name.
     def __repr__(self):
-        pass
+        ret_str = ''
+        for y in range(self.height - 1, -1, -1):
+            for x in range(0, self.width):
+                index = x + (y*12)
+                curr_container = self.grid[index]
+                if (curr_container.name == 'NAN'):
+                    ret_str += '█ '
+                elif (curr_container.name == 'UNUSED'):
+                    ret_str += '- '
+                else:
+                    ret_str += ((curr_container.name[0]) + ' ')
+
+                pass
+            if (y != 0):
+                ret_str += '\n'
+        return ret_str
 
 class Container:
     # REPRESENTATION
@@ -78,9 +111,6 @@ class Container:
     def get_dist(self, xPos_new, yPos_new):
         # Manhatten Distance
         return (abs(xPos_new - self.xPos) + abs(yPos_new - self.yPos))
-
-    def cost(self):
-        pass
 
     def get_index(self):
         return (self.yPos -1) + ((self.xPos - 1) * 12)
@@ -138,6 +168,16 @@ def loadManifest(manifest_file_path):
     temp = "Manifest " + manifest_file_path + " is opened, there are " + str(len(bay)) + " containers on the ship.\n"
     addLogComment(temp)
     return ret_ship
+
+def initialize_empty_buffer():
+    grid        = []
+    for x in range(0, 4):
+        for y in range(0, 24):
+            curr_spot = Container(x+1, y+1, 0, "UNUSED")
+            grid.append(curr_spot)
+
+    ret_buffer  = Buffer(grid)
+    return ret_buffer
 
 class OnOffNode:
     # Representing each state of Ship & Buffer.
@@ -449,7 +489,7 @@ class BalanceNode:
         return expanded_nodes
 
     def balance_goal_test(self):
-        if (len(self.ship.bay) <= 1):
+        if (len(self.ship.bay) == 0):
             return True
         elif((self.get_port_mass() >= (self.get_starboard_mass() * 0.9)) and
                 (self.get_port_mass() <= (self.get_starboard_mass() * 1.1))):
@@ -881,6 +921,11 @@ def main():
     manifest_name = path.split("/")[1].split(".txt")[0]
     print(manifest_name)
     init_ship_state = loadManifest(path)
+
+    global buffer
+    buffer = initialize_empty_buffer()
+    # init_ship_state = loadManifest("tests/ShipCase1.txt")
+
     print(init_ship_state)
     print('\n')
     # print("Port mass: ", BalanceNode(init_ship_state).get_port_mass())
@@ -922,6 +967,7 @@ def main():
     # print("Balanced: ", final_balance_state[-1].balance_goal_test())
     # if ("SIFT" in (final_balance_state[0].operation)):
     #     print("A balanced ship is impossible, ship is legally balanced using SIFT.")
+
     interface(init_ship_state)
     signout()
     updateManifest()
