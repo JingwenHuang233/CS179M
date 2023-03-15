@@ -999,5 +999,3 @@ def main():
     signout()
     updateManifest()
     pop_up_reminder()
-
-main()
