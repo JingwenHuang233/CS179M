@@ -201,7 +201,7 @@ class OnOffNode:
                 topBox = (i-1)*12+(curY-1)
         return boxes, topBox
 
-    def available_spot(self):
+    def available_spot(self, x, y):
         available_spots = []
         for i in range(12):
             row = 1
@@ -211,12 +211,12 @@ class OnOffNode:
             if row == 9:
                 pass
             elif self.grid[(row-1)*12 + i].name == "UNUSED":
-                available_spots.append((row-1)*12 + i)
-
+                if x == 9 or (y-1) != i:
+                    available_spots.append((row-1)*12 + i)
         return available_spots
 
     def nearest_available_spot(self, x, y):  # from x, y to nearest empty spot that's not on top of boxes need to be removed
-        spots = self.available_spot()
+        spots = self.available_spot(x, y)
         nearest = spots[0]
         minDist = self.grid[spots[0]].get_dist(x, y)
         for i in range(len(spots)):
@@ -593,14 +593,24 @@ def traceback_solution(terminal_node):
 
     return ret_node_path
 
+def is_full_ship(ship):
+    for i in range(len(ship.grid)):
+        if ship.grid[i].name == "UNUSED":
+            return False
+    return True
+
 def on_off_load(ship):  # general search
     count = 0
     global onlist
     global offlist
-    # onlist = [Container(9, 1, 120, "test1"), Container(9, 1, 350, "test2")]     # list of containers
-    # offlist = [40]    # index (int) in grid
+    # onlist = [Container(9, 1, 120, "test1")]     # list of containers
+    # offlist = [24]    # index (int) in grid
     print(len(onlist))
     print(len(offlist))
+    if is_full_ship(ship) and len(onlist) > 0:
+        text_display_str = "Can't load to full ship"
+        text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+        return
     global on_off_nodes
     new_grid = copy.deepcopy(ship.grid)
     on_off_nodes = [OnOffNode(new_grid, onlist, offlist, None, "Start On/Offload", 0, 0)]
@@ -831,7 +841,15 @@ def print_on_off_list(grid):
 
 def add_to_onload(grid, input):
     global onlist
+    if input.get() == "":
+        text_display_str = "Input can't be empty!!!"
+        text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+        return
     info = input.get().split(",")
+    if len(info) != 2:
+        text_display_str = "Either information missing or incorrect input format!"
+        text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+        return
     print(info[1], info[0])
     onlist.append(Container(9, 1, int(info[1]), info[0]))
     input.delete(0, END)
@@ -913,12 +931,21 @@ def updateManifest():
         f.write(temp)
     f.close()
 
+def pop_up_reminder():
+    comment = "Finish a cycle. Manifest " + manifest_name + "OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed\n"
+    addLogComment(comment)
+    global root
+    root = Tk()
+    root.title("Done")
+    reminder = Label(text="Done! Please don't forget to send the manifest.", fg="#000000", width=50, font=("Arial", 10)).pack()
+    root.mainloop()
+
 def main():
     login()
     path = input("Manifest File Path: ")
     global init_ship_state
     global manifest_name
-    manifest_name = path.split("/")[1].split(".txt")[0]
+    manifest_name = path.split("/")[-1].split(".txt")[0]
     print(manifest_name)
     init_ship_state = loadManifest(path)
 
@@ -971,6 +998,6 @@ def main():
     interface(init_ship_state)
     signout()
     updateManifest()
-
+    pop_up_reminder()
 
 main()
