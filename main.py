@@ -1,4 +1,4 @@
-import os, copy, math, queue
+import os, copy, queue, pickle, glob
 from datetime import datetime
 from queue import PriorityQueue
 from tkinter import *
@@ -755,9 +755,13 @@ def display_buffer():
 def run_load(ship):
     global mode
     mode = 1
+    with open(".cache/mode.txt", 'wb') as pickle_file:
+        pickle.dump(mode, pickle_file)
     global solution_nodes
     global init_ship_state
     solution_nodes = on_off_load(init_ship_state)
+    with open(".cache/solution_nodes.txt", 'wb') as pickle_file:
+        pickle.dump(solution_nodes, pickle_file)
     bay = []
     grid = []
     grid = solution_nodes[len(solution_nodes)-1].grid
@@ -767,6 +771,8 @@ def run_load(ship):
     init_ship_state = Ship(12, 8, grid, bay)
     global curr_load_node
     curr_load_node = 0
+    with open(".cache/curr_load_node.txt", 'wb') as pickle_file:
+        pickle.dump(curr_load_node, pickle_file)
     draw_grid(solution_nodes[curr_load_node].grid)
 
     global text_display_str
@@ -774,17 +780,21 @@ def run_load(ship):
     text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
     print(solution_nodes[curr_load_node].operation.split(" ")[0])
 
-
-
 def next_operation():
     global curr_load_node
     global solution_nodes
+    if len(solution_nodes) == 0:
+        return
     curr_load_node += 1
+    with open(".cache/curr_load_node.txt", 'wb') as pickle_file:
+        pickle.dump(curr_load_node, pickle_file)
     if curr_load_node == len(solution_nodes):
         text_display = Label(text="Done", height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
         return
     elif curr_load_node > len(solution_nodes):
         curr_load_node = len(solution_nodes)
+        with open(".cache/curr_load_node.txt", 'wb') as pickle_file:
+            pickle.dump(curr_load_node, pickle_file)
         return
     draw_grid(solution_nodes[curr_load_node].grid)
     global text_display_str
@@ -807,6 +817,8 @@ def back_operation():
     global curr_load_node
     global solution_nodes
     global text_display_str
+    if len(solution_nodes) == 0:
+        return
     curr_load_node -= 1
     if curr_load_node == 0:
         text_display_str = solution_nodes[curr_load_node].operation
@@ -815,6 +827,8 @@ def back_operation():
         return
     elif curr_load_node < 0:
         curr_load_node = 0
+        with open(".cache/curr_load_node.txt", 'wb') as pickle_file:
+            pickle.dump(curr_load_node, pickle_file)
         return
     draw_grid(solution_nodes[curr_load_node].grid)
     text_display_str = solution_nodes[curr_load_node].operation
@@ -852,6 +866,8 @@ def add_to_onload(grid, input):
         return
     print(info[1], info[0])
     onlist.append(Container(9, 1, int(info[1]), info[0]))
+    with open(".cache/onlist.txt", 'wb') as pickle_file:
+        pickle.dump(onlist, pickle_file)
     input.delete(0, END)
     print_on_off_list(grid)
 
@@ -859,14 +875,20 @@ def add_to_offload(grid, index):
     global offlist
     print(index)
     offlist.append(index)
+    with open(".cache/offlist.txt", 'wb') as pickle_file:
+        pickle.dump(offlist, pickle_file)
     print_on_off_list(grid)
 
 def run_balancing(ship):
     global mode
     mode = 2
+    with open(".cache/mode.txt", 'wb') as pickle_file:
+        pickle.dump(mode, pickle_file)
     global solution_nodes
     global init_ship_state
     solution_nodes = balance_ship(init_ship_state)
+    with open(".cache/solution_nodes.txt", 'wb') as pickle_file:
+        pickle.dump(solution_nodes, pickle_file)
     bay = []
     grid = []
     grid = solution_nodes[len(solution_nodes)-1].grid
@@ -876,6 +898,8 @@ def run_balancing(ship):
     init_ship_state = Ship(12, 8, grid, bay)
     global curr_load_node
     curr_load_node = 0
+    with open(".cache/curr_load_node.txt", 'wb') as pickle_file:
+        pickle.dump(curr_load_node, pickle_file)
     draw_grid(solution_nodes[curr_load_node].grid)
     global text_display_str
     text_display_str = solution_nodes[curr_load_node].operation
@@ -940,62 +964,87 @@ def pop_up_reminder():
     reminder = Label(text="Done! Please don't forget to send the manifest.", fg="#000000", width=50, font=("Arial", 10)).pack()
     root.mainloop()
 
-def main():
-    login()
-    path = input("Manifest File Path: ")
+def restore():
     global init_ship_state
     global manifest_name
-    manifest_name = path.split("/")[-1].split(".txt")[0]
-    print(manifest_name)
-    init_ship_state = loadManifest(path)
-
     global buffer
-    buffer = initialize_empty_buffer()
-    # init_ship_state = loadManifest("tests/ShipCase1.txt")
-
-    print(init_ship_state)
-    print('\n')
-    # print("Port mass: ", BalanceNode(init_ship_state).get_port_mass())
-    # print("Starboard mass: ", BalanceNode(init_ship_state).get_starboard_mass())
-    # print("Balanced: ", BalanceNode(init_ship_state).balance_goal_test())
-    #
-    # final_state = (balance_ship(init_ship_state).ship)
-    # print(final_state)
-    # print("Port mass: ", BalanceNode(final_state).get_port_mass())
-    # print("Starboard mass: ", BalanceNode(final_state).get_starboard_mass())
-    # print("Balanced: ", BalanceNode(final_state).balance_goal_test())
-    #
-    # #print(test_node.accessable_containers())
-
-    #print("Testing load function...")
-    #on_off_load(init_ship_state)
-
-    # print("Testing balance function...")
-    # final_balance_state = balance_ship(init_ship_state)
-    # print(final_balance_state.ship)
-    # on_off_load(init_ship_state)
     global solution_nodes
     global curr_load_node
     global onlist
-    onlist = []
     global offlist
-    offlist = []
     global mode
-    mode = 1
-    #init_ship_state = loadManifest(path)
-    # print(init_ship_state)
-    # print("\nTesting load function...")
-    # on_off_load(init_ship_state)
-    #
-    # print("Testing balance function...")
-    # final_balance_state = balance_ship(init_ship_state)
-    # print("Port mass: ", final_balance_state[-1].get_port_mass())
-    # print("Starboard mass: ", final_balance_state[-1].get_starboard_mass())
-    # print("Balanced: ", final_balance_state[-1].balance_goal_test())
-    # if ("SIFT" in (final_balance_state[0].operation)):
-    #     print("A balanced ship is impossible, ship is legally balanced using SIFT.")
 
-    interface(init_ship_state)
+    with open(".cache/manifest_name.txt", 'rb') as pickle_file:
+        manifest_name = pickle.load(pickle_file)
+    with open(".cache/solution_nodes.txt", 'rb') as pickle_file:
+        solution_nodes = pickle.load(pickle_file)
+    with open(".cache/curr_load_node.txt", 'rb') as pickle_file:
+        curr_load_node = pickle.load(pickle_file)
+
+    if (curr_load_node >= len(solution_nodes)):
+        curr_load_node = len(solution_nodes) - 1
+
+    with open(".cache/mode.txt", 'rb') as pickle_file:
+        mode = pickle.load(pickle_file)
+
+    if (mode == 1):
+        with open(".cache/onlist.txt", 'rb') as pickle_file:
+            onlist = pickle.load(pickle_file)
+        with open(".cache/offlist.txt", 'rb') as pickle_file:
+            offlist = pickle.load(pickle_file)
+
+        init_ship_state = Ship(12, 8, solution_nodes[curr_load_node].grid, [])
+        pass
+
+    elif (mode == 2):
+        init_ship_state = solution_nodes[curr_load_node].ship
+    # If we end up using the buffer at any point, save buffer to .txt file, and load it with pickle
+    buffer = initialize_empty_buffer()
+
+    with open("log.txt", 'a') as f:
+        f.write(str(datetime.now().strftime("%B %d %Y: %H:%M"))+" Recovered from crash!")
+
+def main():
+    login()
+    global init_ship_state
+    global manifest_name
+    global buffer
+    global solution_nodes
+    global curr_load_node
+    global onlist
+    global offlist
+    global mode
+    solution_nodes = []
+
+    cache_files = os.listdir(".cache")
+    if (len(cache_files) != 0):
+        restore()
+        # TODO: Reloading from cache does not display current operation step. Pressing Next then Back will however.
+        interface(solution_nodes[curr_load_node])
+
+    else:
+        path = input("Manifest File Path: ")
+        manifest_name = path.split("/")[-1].split(".txt")[0]
+        with open(".cache/manifest_name.txt", 'wb') as pickle_file:
+            pickle.dump(manifest_name, pickle_file)
+        print(manifest_name)
+        init_ship_state = loadManifest(path)
+        buffer = initialize_empty_buffer()
+        print(init_ship_state)
+        print('\n')
+        onlist = []
+        offlist = []
+        mode = 1
+        with open(".cache/mode.txt", 'wb') as pickle_file:
+            pickle.dump(mode, pickle_file)
+        interface(init_ship_state)
     signout()
     updateManifest()
     pop_up_reminder()
+
+    # Clear .cache, indicates successful/completed iteration of all solution steps.
+    if (curr_load_node >= len(solution_nodes)):
+        for f in glob.glob(".cache/*"):
+            os.remove(f)
+main()
+
