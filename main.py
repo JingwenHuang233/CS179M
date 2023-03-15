@@ -1035,8 +1035,14 @@ def main():
         onlist = []
         offlist = []
         mode = 1
+
+        with open(".cache/onlist.txt", 'wb') as pickle_file:
+            pickle.dump(onlist, pickle_file)
+        with open(".cache/offlist.txt", 'wb') as pickle_file:
+            pickle.dump(offlist, pickle_file)
         with open(".cache/mode.txt", 'wb') as pickle_file:
             pickle.dump(mode, pickle_file)
+            
         interface(init_ship_state)
     signout()
     updateManifest()
