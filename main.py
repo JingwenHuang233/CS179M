@@ -934,6 +934,12 @@ def interface(ship):
     back_btn = Button(text="Back", bg="#e0e0e0", fg="#000000", width=10, height=1, command=back_operation).grid(row=10, column=14, padx=7, pady=2)
     next_btn = Button(text="Next", bg="#e0e0e0", fg="#000000", width=10, height=1, command=next_operation).grid(row=10, column=15, padx=7)
     display_buffer()
+    global solution_nodes
+    if len(solution_nodes) > 0:
+        text_display_str = solution_nodes[curr_load_node].operation
+        text_display_str = "Estimated Time: " + str(solution_nodes[curr_load_node].estimated_time)+" minutes\n"+solution_nodes[curr_load_node].operation
+        text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+
 
     root.mainloop()
 
