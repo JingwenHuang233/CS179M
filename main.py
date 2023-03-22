@@ -1,7 +1,9 @@
 import os, copy, queue, pickle, glob
 from datetime import datetime
 from queue import PriorityQueue
+
 from tkinter import *
+import tkinter.messagebox, tkinter.filedialog as fd
 
 class Ship:
     # REPRESENTATION
@@ -169,6 +171,68 @@ def loadManifest(manifest_file_path):
     addLogComment(temp)
     return ret_ship
 
+def loadShip():
+    global root
+    global port_mass_label
+    global starboard_mass_label
+    global run_OnOffload
+    global run_balance
+
+    global init_ship_state
+    global manifest_name
+    global buffer
+    global solution_nodes
+    global curr_load_node
+    global onlist
+    global offlist
+    global mode
+    global empty_ship
+    global finish_flag
+
+    finish_flag = False
+    solution_nodes = []
+
+    filetypes = (
+        ('text files', '*.txt'),
+        ('All files', '*.*')
+    )
+    file = fd.askopenfile(filetypes=filetypes)
+
+    if (file != None):
+        path = os.path.abspath(file.name)
+        manifest_name = path.split("\\")[-1].split(".txt")[0]
+        with open(".cache/manifest_name.txt", 'wb') as pickle_file:
+            pickle.dump(manifest_name, pickle_file)
+
+        init_ship_state = loadManifest(path)
+        empty_ship = (len(init_ship_state.bay) == 0)
+        buffer = initialize_empty_buffer()
+        onlist = []
+        offlist = []
+        mode = 1
+        curr_load_node = 0
+
+        with open(".cache/onlist.txt", 'wb') as pickle_file:
+            pickle.dump(onlist, pickle_file)
+        with open(".cache/offlist.txt", 'wb') as pickle_file:
+            pickle.dump(offlist, pickle_file)
+        with open(".cache/mode.txt", 'wb') as pickle_file:
+            pickle.dump(mode, pickle_file)
+
+        draw_grid(init_ship_state.grid)
+
+        port_mass = "0"  # TODO: put actual port mass
+        port_mass_label.configure(text="Port Mass: "+port_mass, fg="#000000", width=20, font=("Arial", 10))
+        starboard_mass = "0"  # TODO: put actual starboard mass
+        starboard_mass_label.configure(text="Starboard Mass: "+starboard_mass, fg="#000000", width=20, font=("Arial", 10))
+
+        run_OnOffload = Button(text="Run On/Offload", bg="#e0e0e0", fg="#000000", width=15, height=1, command=lambda: run_load(init_ship_state))
+        run_OnOffload.grid(row=3, column=14, padx=7)
+        run_balance = Button(text="Run Balance", bg="#e0e0e0", fg="#000000", width=15, height=1, command=lambda: run_balancing(init_ship_state))
+        run_balance.grid(row=3, column=15, padx=7)
+
+        root.title(manifest_name)
+
 def initialize_empty_buffer():
     grid        = []
     for x in range(0, 4):
@@ -178,6 +242,17 @@ def initialize_empty_buffer():
 
     ret_buffer  = Buffer(grid)
     return ret_buffer
+
+def initialize_empty_ship():
+    bay     = []
+    grid    = []
+    for x in range(0, 12):
+        for y in range(0, 8):
+            curr_spot = Container(x+1, y+1, 0, "UNUSED")
+            grid.append(curr_spot)
+
+    ret_ship = Ship(12, 8, grid, bay)
+    return ret_ship
 
 class OnOffNode:
     # Representing each state of Ship & Buffer.
@@ -751,14 +826,21 @@ def display_buffer():
         for j in range(24):
             button = Button(temp, bg="#969696", width=4, height=2).grid(row=12+4-i, column=j, padx=0.5, pady=0.5)
 
-
 def run_load(ship):
+    global next_btn
+    global open_btn
+    global run_OnOffload
+    global run_balance
+    
     global mode
+    global solution_nodes
+    global init_ship_state
+    global curr_load_node
+    global text_display_str
+
     mode = 1
     with open(".cache/mode.txt", 'wb') as pickle_file:
         pickle.dump(mode, pickle_file)
-    global solution_nodes
-    global init_ship_state
     solution_nodes = on_off_load(init_ship_state)
     with open(".cache/solution_nodes.txt", 'wb') as pickle_file:
         pickle.dump(solution_nodes, pickle_file)
@@ -769,33 +851,103 @@ def run_load(ship):
         if grid[i].name != "NAN" and grid[i].name != "UNUSED":
             bay.append(grid[i])
     init_ship_state = Ship(12, 8, grid, bay)
-    global curr_load_node
     curr_load_node = 0
     with open(".cache/curr_load_node.txt", 'wb') as pickle_file:
         pickle.dump(curr_load_node, pickle_file)
     draw_grid(solution_nodes[curr_load_node].grid)
 
-    global text_display_str
     text_display_str = solution_nodes[curr_load_node].operation
     text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
     print(solution_nodes[curr_load_node].operation.split(" ")[0])
 
+    run_OnOffload = Button(text="Run On/Offload", bg="#909090", fg="#000000", width=15, height=1, command=None)
+    run_OnOffload.grid(row=3, column=14, padx=7)
+    run_balance = Button(text="Run Balance", bg="#909090", fg="#000000", width=15, height=1, command=None)
+    run_balance.grid(row=3, column=15, padx=7)
+
+    next_btn = Button(text="Next", bg="#e0e0e0", fg="#000000", width=10, height=1, command=next_operation)
+    next_btn.grid(row=10, column=15, padx=7, pady=2)
+    open_btn = Button(text='Open Manifest', bg="#909090", fg="#000000", width=15, height=1, command=None)
+    open_btn.grid(row=2, column=17, padx=1, sticky=N)
+
+def run_balancing(ship):
+    global next_btn
+    global open_btn
+    global port_mass_label
+    global starboard_mass_label
+
+    global mode
+    global solution_nodes
+    global init_ship_state
+    global curr_load_node
+    global text_display_str
+
+    mode = 2
+    with open(".cache/mode.txt", 'wb') as pickle_file:
+        pickle.dump(mode, pickle_file)
+    solution_nodes = balance_ship(init_ship_state)
+    with open(".cache/solution_nodes.txt", 'wb') as pickle_file:
+        pickle.dump(solution_nodes, pickle_file)
+    bay = []
+    grid = []
+    grid = solution_nodes[len(solution_nodes)-1].grid
+    for i in range(len(grid)):
+        if grid[i].name != "NAN" and grid[i].name != "UNUSED":
+            bay.append(grid[i])
+    init_ship_state = Ship(12, 8, grid, bay)
+    curr_load_node = 0
+    with open(".cache/curr_load_node.txt", 'wb') as pickle_file:
+        pickle.dump(curr_load_node, pickle_file)
+    draw_grid(solution_nodes[curr_load_node].grid)
+    
+    text_display_str = solution_nodes[curr_load_node].operation
+    text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+
+    port_mass = solution_nodes[curr_load_node].get_port_mass()  # TODO: put actual port mass
+    port_mass_label.configure(text="Port Mass: "+str(port_mass), fg="#000000", width=20, font=("Arial", 10))
+    starboard_mass = solution_nodes[curr_load_node].get_starboard_mass()  # TODO: put actual starboard mass
+    starboard_mass_label.configure(text="Starboard Mass: "+ str(starboard_mass), fg="#000000", width=20, font=("Arial", 10))
+
+    run_OnOffload = Button(text="Run On/Offload", bg="#909090", fg="#000000", width=15, height=1, command=None)
+    run_OnOffload.grid(row=3, column=14, padx=7)
+    run_balance = Button(text="Run Balance", bg="#909090", fg="#000000", width=15, height=1, command=None)
+    run_balance.grid(row=3, column=15, padx=7)
+
+    next_btn = Button(text="Next", bg="#e0e0e0", fg="#000000", width=10, height=1, command=next_operation)
+    next_btn.grid(row=10, column=15, padx=7, pady=2)
+    open_btn = Button(text='Open Manifest', bg="#909090", fg="#000000", width=15, height=1, command=None)
+    open_btn.grid(row=2, column=17, padx=1, sticky=N)
+
+# TODO: In both next_operation() and back_operation(), the Back button doesn't properly get updated.
 def next_operation():
     global curr_load_node
     global solution_nodes
+    global finish_flag
+    global back_btn
+    global next_btn
+    
     if len(solution_nodes) == 0:
         return
+
     curr_load_node += 1
+    if (curr_load_node == 0):
+        back_btn = Button(text="Back", bg="#909090", fg="#000000", width=10, height=1, command=None)
+        back_btn.grid(row=10, column=14, padx=7, pady=2)
+    else:
+        back_btn = Button(text="Back", bg="#e0e0e0", fg="#000000", width=10, height=1, command=back_operation)
+        back_btn.grid(row=10, column=14, padx=7, pady=2)
+
     with open(".cache/curr_load_node.txt", 'wb') as pickle_file:
         pickle.dump(curr_load_node, pickle_file)
-    if curr_load_node == len(solution_nodes):
-        text_display = Label(text="Done", height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
-        return
-    elif curr_load_node > len(solution_nodes):
+    if curr_load_node >= len(solution_nodes):
+        finish_flag = True
         curr_load_node = len(solution_nodes)
-        with open(".cache/curr_load_node.txt", 'wb') as pickle_file:
-            pickle.dump(curr_load_node, pickle_file)
+        text_display = Label(text="Done", height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
+
+        next_btn = Button(text="Finish", bg="#e0e0e0", fg="#000000", width=10, height=1, command=reset_operation)
+        next_btn.grid(row=10, column=15, padx=7)
         return
+
     draw_grid(solution_nodes[curr_load_node].grid)
     global text_display_str
     text_display_str = solution_nodes[curr_load_node].operation
@@ -817,9 +969,28 @@ def back_operation():
     global curr_load_node
     global solution_nodes
     global text_display_str
+    global finish_flag
+    
+    global back_btn
+    global next_btn
+    global port_mass_label
+    global starboard_mass_label
+
+    if (finish_flag == True):
+        finish_flag = False
+        next_btn.configure(text="Next", bg="#e0e0e0", fg="#000000", width=10, height=1, command=next_operation)
+
     if len(solution_nodes) == 0:
         return
+        
     curr_load_node -= 1
+    if (curr_load_node == 0):
+        back_btn = Button(text="Back", bg="#909090", fg="#000000", width=10, height=1, command=None)
+        back_btn.grid(row=10, column=14, padx=7, pady=2)
+    else:
+        back_btn = Button(text="Back", bg="#e0e0e0", fg="#000000", width=10, height=1, command=back_operation)
+        back_btn.grid(row=10, column=14, padx=7, pady=2)
+
     if curr_load_node == 0:
         text_display_str = solution_nodes[curr_load_node].operation
         text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
@@ -836,10 +1007,59 @@ def back_operation():
     text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
     if mode == 2:
         port_mass = solution_nodes[curr_load_node].get_port_mass()  # TODO: put actual port mass
-        port_mass_label = Label(text="Port Mass: "+str(port_mass), fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=0)
+        port_mass_label.configure(text="Port Mass: "+str(port_mass), fg="#000000", width=20, font=("Arial", 10))
         starboard_mass = solution_nodes[curr_load_node].get_starboard_mass()  # TODO: put actual starboard mass
-        starboard_mass_label = Label(text="Starboard Mass: "+ str(starboard_mass), fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=6)
+        starboard_mass_label.configure(text="Starboard Mass: "+ str(starboard_mass), fg="#000000", width=20, font=("Arial", 10))
 
+# TODO: 
+def reset_operation():
+    global root
+    global init_ship_state
+    global manifest_name
+    global buffer
+    global solution_nodes
+    global curr_load_node
+    global onlist
+    global offlist
+    global mode
+    global finish_flag
+    global reload
+
+    global next_btn
+    global back_btn
+    global port_mass_label
+    global starboard_mass_label
+
+    updateManifest()
+    for f in glob.glob(".cache/*"):
+        os.remove(f)
+    pop_up_reminder()  
+
+    init_ship_state = initialize_empty_ship()
+    manifest_name = ''
+    solution_nodes = []
+    curr_load_node = 0
+    onlist = []
+    offlist = []
+    mode = 1
+    finish_flag = False
+    reload = False
+
+    back_btn = Button(text="Back", bg="#909090", fg="#000000", width=10, height=1, command=None)
+    back_btn.grid(row=10, column=14, padx=7, pady=2)
+    next_btn = Button(text="Next", bg="#909090", fg="#000000", width=10, height=1, command=None)
+    next_btn.grid(row=10, column=15, padx=7, pady=2)
+    open_btn = Button(text='Open Manifest', bg="#e0e0e0", fg="#000000", width=15, height=1, command=loadShip)
+    open_btn.grid(row=2, column=17, padx=1, sticky=N)
+
+
+    draw_grid(init_ship_state.grid)
+    port_mass = "0"  # TODO: put actual port mass
+    port_mass_label.configure(text="Port Mass: "+port_mass, fg="#000000", width=20, font=("Arial", 10))
+    starboard_mass = "0"  # TODO: put actual starboard mass
+    starboard_mass_label.configure(text="Starboard Mass: "+starboard_mass, fg="#000000", width=20, font=("Arial", 10))
+
+    root.title("Empty Ship")
 
 def print_on_off_list(grid):
     global onlist
@@ -879,67 +1099,78 @@ def add_to_offload(grid, index):
         pickle.dump(offlist, pickle_file)
     print_on_off_list(grid)
 
-def run_balancing(ship):
-    global mode
-    mode = 2
-    with open(".cache/mode.txt", 'wb') as pickle_file:
-        pickle.dump(mode, pickle_file)
-    global solution_nodes
-    global init_ship_state
-    solution_nodes = balance_ship(init_ship_state)
-    with open(".cache/solution_nodes.txt", 'wb') as pickle_file:
-        pickle.dump(solution_nodes, pickle_file)
-    bay = []
-    grid = []
-    grid = solution_nodes[len(solution_nodes)-1].grid
-    for i in range(len(grid)):
-        if grid[i].name != "NAN" and grid[i].name != "UNUSED":
-            bay.append(grid[i])
-    init_ship_state = Ship(12, 8, grid, bay)
-    global curr_load_node
-    curr_load_node = 0
-    with open(".cache/curr_load_node.txt", 'wb') as pickle_file:
-        pickle.dump(curr_load_node, pickle_file)
-    draw_grid(solution_nodes[curr_load_node].grid)
-    global text_display_str
-    text_display_str = solution_nodes[curr_load_node].operation
-    text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
-    port_mass = solution_nodes[curr_load_node].get_port_mass()  # TODO: put actual port mass
-    port_mass_label = Label(text="Port Mass: "+str(port_mass), fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=0)
-    starboard_mass = solution_nodes[curr_load_node].get_starboard_mass()  # TODO: put actual starboard mass
-    starboard_mass_label = Label(text="Starboard Mass: "+ str(starboard_mass), fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=6)
-
-
 def interface(ship):
+    global submit_comment
+    global run_OnOffload
+    global run_balance
+    global back_btn
+    global next_btn
+    global open_btn
+    global port_mass_label
+    global starboard_mass_label
+    
+    global root
+    global empty_ship
+    global finish_flag
     global text_display_str
     text_display_str = ""
-    global root
+    
     root = Tk()
-    root.title("On/Offload and Balancing")
+    root.title("Empty Ship")
     draw_grid(ship.grid)
+
     port_mass = "0"  # TODO: put actual port mass
-    port_mass_label = Label(text="Port Mass: "+port_mass, fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=0)
+    port_mass_label = Label(text="Port Mass: "+port_mass, fg="#000000", width=20, font=("Arial", 10))
+    port_mass_label.grid(row=9, columnspan=6, column=0)
+
     starboard_mass = "0"  # TODO: put actual starboard mass
-    starboard_mass_label = Label(text="Starboard Mass: "+starboard_mass, fg="#000000", width=20, font=("Arial", 10)).grid(row=9, columnspan=6, column=6)
+    starboard_mass_label = Label(text="Starboard Mass: "+starboard_mass, fg="#000000", width=20, font=("Arial", 10))
+    port_mass_label.grid(row=9, columnspan=6, column=6)
+
     midline = Label(text="", height=31, width=5).grid(row=1, rowspan=8, column=13)
     onload_entry_hint = Label(text="Add Containers(Name, Weight):", width=24, font=("Arial", 10)).grid(row=1, column=14, sticky=S)
     entry = Entry(width=40)
     entry_display = entry.grid(row=2, column=14, padx=1, sticky=N)
     add_onload_btn = Button(text="Add To Onload", bg="#e0e0e0", fg="#000000", width=15, height=1, command=lambda: add_to_onload(ship.grid, entry)).grid(row=2, column=15, padx=1, sticky=N)
-    run_OnOffload = Button(text="Run On/Offload", bg="#e0e0e0", fg="#000000", width=15, height=1, command=lambda: run_load(ship)).grid(row=3, column=14, padx=7)
-    run_balance = Button(text="Run Balance", bg="#e0e0e0", fg="#000000", width=15, height=1, command=lambda: run_balancing(ship)).grid(row=3, column=15, padx=7)
+    
     comment = Text(height=10, width=50, bg="#ffffff")
     comment_display = comment.grid(row=6, rowspan=3, column=14, columnspan=3, padx=7)
-    submit_comment = Button(text="Comment", bg="#e0e0e0", fg="#000000", width=10, height=1, command=lambda: [addLogComment(comment.get(1.0, END)), comment.delete(1.0, END)]).grid(row=8, column=17, padx=7, pady=2)
-    back_btn = Button(text="Back", bg="#e0e0e0", fg="#000000", width=10, height=1, command=back_operation).grid(row=10, column=14, padx=7, pady=2)
-    next_btn = Button(text="Next", bg="#e0e0e0", fg="#000000", width=10, height=1, command=next_operation).grid(row=10, column=15, padx=7)
+    submit_comment = Button(text="Comment", bg="#e0e0e0", fg="#000000", width=10, height=1, command=lambda: [addLogComment(comment.get(1.0, END)), comment.delete(1.0, END)])
+    submit_comment.grid(row=8, column=17, padx=7, pady=2)
+    
+    run_OnOffload = Button(text="Run On/Offload", bg="#909090", fg="#000000", width=15, height=1, command=None)
+    run_OnOffload.grid(row=3, column=14, padx=7)
+    run_balance = Button(text="Run Balance", bg="#909090", fg="#000000", width=15, height=1, command=None)
+    run_balance.grid(row=3, column=15, padx=7)
+
+    if (reload == False):
+        back_btn = Button(text="Back", bg="#909090", fg="#000000", width=10, height=1, command=None)
+        back_btn.grid(row=10, column=14, padx=7, pady=2)
+
+        next_btn = Button(text="Next", bg="#909090", fg="#000000", width=10, height=1, command=None)
+        next_btn.grid(row=10, column=15, padx=7)
+
+        open_btn = Button(text='Open Manifest', bg="#e0e0e0", fg="#000000", width=15, height=1, command=loadShip)
+        open_btn.grid(row=2, column=17, padx=1, sticky=N)
+    else:
+        if (curr_load_node == 0):
+            back_btn = Button(text="Back", bg="#909090", fg="#000000", width=10, height=1, command=None)
+        else:
+            back_btn = Button(text="Back", bg="#e0e0e0", fg="#000000", width=10, height=1, command=back_operation)
+        back_btn.grid(row=10, column=14, padx=7, pady=2)
+
+        next_btn = Button(text="Next", bg="#e0e0e0", fg="#000000", width=10, height=1, command=next_operation)
+        next_btn.grid(row=10, column=15, padx=7)
+
+        open_btn = Button(text='Open Manifest', bg="#909090", fg="#000000", width=15, height=1, command=None)
+        open_btn.grid(row=2, column=17, padx=1, sticky=N)
+
     display_buffer()
     global solution_nodes
     if len(solution_nodes) > 0:
         text_display_str = solution_nodes[curr_load_node].operation
         text_display_str = "Estimated Time: " + str(solution_nodes[curr_load_node].estimated_time)+" minutes\n"+solution_nodes[curr_load_node].operation
         text_display = Label(text=text_display_str, height=6, width=50, bg="#f7faf0").grid(row=4, rowspan=2, column=14, columnspan=3, padx=7)
-
 
     root.mainloop()
 
@@ -951,7 +1182,7 @@ def signout():
 def updateManifest():
     global manifest_name
     desktop = os.path.expanduser("~\Desktop\\")
-    filename = desktop + manifest_name+"OUTBOUND.txt"
+    filename = desktop+manifest_name+"OUTBOUND.txt"
     print(filename)
     f = open(filename, "w")
     global init_ship_state
@@ -964,11 +1195,11 @@ def updateManifest():
 def pop_up_reminder():
     comment = "Finish a cycle. Manifest " + manifest_name + "OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed\n"
     addLogComment(comment)
-    global root
-    root = Tk()
-    root.title("Done")
-    reminder = Label(text="Done! Please don't forget to send the manifest.", fg="#000000", width=50, font=("Arial", 10)).pack()
-    root.mainloop()
+    tkinter.messagebox.showinfo("Done", "Done! Please don't forget to send the manifest.")
+
+def clearCache():
+    for f in glob.glob(".cache/*"):
+        os.remove(f)
 
 def restore():
     global init_ship_state
@@ -979,6 +1210,10 @@ def restore():
     global onlist
     global offlist
     global mode
+    global empty_ship
+    global reload
+    empty_ship = False
+    reload = True
 
     with open(".cache/manifest_name.txt", 'rb') as pickle_file:
         manifest_name = pickle.load(pickle_file)
@@ -1011,7 +1246,8 @@ def restore():
         f.write(str(datetime.now().strftime("%B %d %Y: %H:%M"))+" Recovered from crash!")
 
 def main():
-    login()
+    #login()
+
     global init_ship_state
     global manifest_name
     global buffer
@@ -1020,6 +1256,9 @@ def main():
     global onlist
     global offlist
     global mode
+    global finish_flag
+    global reload
+    finish_flag = False
     solution_nodes = []
 
     cache_files = os.listdir(".cache")
@@ -1029,34 +1268,11 @@ def main():
         interface(solution_nodes[curr_load_node])
 
     else:
-        path = input("Manifest File Path: ")
-        manifest_name = path.split("/")[-1].split(".txt")[0]
-        with open(".cache/manifest_name.txt", 'wb') as pickle_file:
-            pickle.dump(manifest_name, pickle_file)
-        print(manifest_name)
-        init_ship_state = loadManifest(path)
-        buffer = initialize_empty_buffer()
-        print(init_ship_state)
-        print('\n')
-        onlist = []
-        offlist = []
-        mode = 1
-
-        with open(".cache/onlist.txt", 'wb') as pickle_file:
-            pickle.dump(onlist, pickle_file)
-        with open(".cache/offlist.txt", 'wb') as pickle_file:
-            pickle.dump(offlist, pickle_file)
-        with open(".cache/mode.txt", 'wb') as pickle_file:
-            pickle.dump(mode, pickle_file)
-            
+        reload = False
+        init_ship_state = initialize_empty_ship()
         interface(init_ship_state)
-    signout()
-    updateManifest()
-    pop_up_reminder()
 
-    # Clear .cache, indicates successful/completed iteration of all solution steps.
-    if (curr_load_node >= len(solution_nodes)):
-        for f in glob.glob(".cache/*"):
-            os.remove(f)
+    #signout()
+
 main()
 
