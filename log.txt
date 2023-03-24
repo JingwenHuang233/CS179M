@@ -1,0 +1,508 @@
+March 13 2023: 21:03 Shiloh Felix signs in
+March 13 2023: 21:03 Manifest tests/ShipCase4.txt is opened, there are 7 containers on the ship.
+March 13 2023: 21:03 Shiloh Felix signs out
+March 13 2023: 21:03 Shiloh Felix signs in
+March 13 2023: 21:03 Manifest tests/ShipCase4.txt is opened, there are 7 containers on the ship.
+March 13 2023: 21:03 'Pig' is offloaded.
+March 13 2023: 21:04 'Pig' is offloaded.
+March 13 2023: 21:04 'test1' is onloaded.
+March 13 2023: 21:05 'test1' is onloaded.
+March 13 2023: 21:10 Shiloh Felix signs in
+March 13 2023: 21:10 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 13 2023: 21:12 'Dog' is offloaded.
+March 13 2023: 21:12 Shiloh Felix signs out
+March 14 2023: 22:52 Shiloh Felix signs in
+March 14 2023: 22:53 Shiloh Felix signs in
+March 14 2023: 22:53 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:53 'test1' is onloaded.
+March 14 2023: 22:54 Shiloh Felix signs out
+March 14 2023: 22:54 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 14 2023: 22:55 Shiloh Felix signs in
+March 14 2023: 22:55 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 14 2023: 22:55 'test1' is onloaded.
+March 14 2023: 22:55 'Dog' is offloaded.
+March 14 2023: 22:55 'test1' is onloaded.
+March 14 2023: 22:55 'Dog' is offloaded.
+March 14 2023: 22:56 Shiloh Felix signs out
+March 14 2023: 22:56 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 14 2023: 23:14 Shiloh Felix signs in
+March 14 2023: 23:14 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 14 2023: 23:18 Shiloh Felix signs out
+March 14 2023: 23:18 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 14 2023: 23:18 Shiloh Felix signs in
+March 14 2023: 23:18 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 14 2023: 23:20 Shiloh Felix signs in
+March 14 2023: 23:20 Shiloh Felix signs in
+March 14 2023: 23:20 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 14 2023: 23:21 Shiloh Felix signs out
+March 14 2023: 23:21 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 14 2023: 23:21 Shiloh Felix signs in
+March 14 2023: 23:22 Shiloh Felix signs in
+March 14 2023: 23:45 Shiloh Felix signs in
+March 14 2023: 23:46 Shiloh Felix signs in
+March 14 2023: 23:46 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 14 2023: 23:46 Shiloh Felix signs out
+March 14 2023: 23:46 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 00:23 Shiloh Felix signs in
+March 15 2023: 00:24 Manifest tests/ShipCase4.txt is opened, there are 7 containers on the ship.
+March 15 2023: 00:24 Shiloh Felix signs out
+March 15 2023: 00:24 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 00:25 Shiloh Felix signs in
+March 15 2023: 00:25 Manifest tests/ShipCase4.txt is opened, there are 7 containers on the ship.
+March 15 2023: 00:27 Shiloh Felix signs out
+March 15 2023: 00:27 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 00:27 Shiloh Felix signs in
+March 15 2023: 00:28 Shiloh Felix signs in
+March 15 2023: 00:28 Shiloh Felix signs out
+March 15 2023: 00:28 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 00:32 Shiloh Felix signs in
+March 15 2023: 00:32 Shiloh Felix signs out
+March 15 2023: 00:32 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 00:32 Shiloh Felix signs in
+March 15 2023: 00:32 Manifest tests/ShipCase4.txt is opened, there are 7 containers on the ship.
+March 15 2023: 00:33 Shiloh Felix signs out
+March 15 2023: 00:33 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 00:33 Shiloh Felix signs in
+March 15 2023: 00:34 Shiloh Felix signs out
+March 15 2023: 00:34 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 00:35 Shiloh Felix signs in
+March 15 2023: 00:36 Shiloh Felix signs out
+March 15 2023: 00:36 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 00:37 Shiloh Felix signs in
+March 15 2023: 00:37 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 15 2023: 00:37 'test1' is onloaded.
+March 15 2023: 00:37 Shiloh Felix signs out
+March 15 2023: 00:37 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 00:37 Shiloh signs in
+March 15 2023: 00:47 Shiloh Felix signs in
+March 15 2023: 00:49 Shiloh Felix signs in
+March 15 2023: 00:51 'Dog' is offloaded.
+March 15 2023: 00:51 'test1' is onloaded.
+March 15 2023: 00:51 'Dog' is offloaded.
+March 15 2023: 00:51 Shiloh Felix signs out
+March 15 2023: 00:54 Shiloh Felix signs in
+March 15 2023: 00:56 Shiloh Felix signs in
+March 15 2023: 00:56 Recovered from crash!
+March 15 2023: 00:57 Shiloh Felix signs out
+March 15 2023: 00:57 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 01:00 Shiloh Felix signs in
+March 15 2023: 01:00 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 15 2023: 01:00 Shiloh Felix signs out
+March 15 2023: 01:00 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 01:00 Shiloh Felix signs in
+March 15 2023: 01:02 Shiloh Felix signs in
+March 15 2023: 01:02 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 15 2023: 01:02 Shiloh Felix signs out
+March 15 2023: 01:02 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 01:03 Shiloh Felix signs in
+March 15 2023: 01:03 Recovered from crash!March 15 2023: 01:03 Shiloh Felix signs out
+March 15 2023: 01:03 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 01:04 Shiloh Felix signs in
+March 15 2023: 01:04 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+
+
+March 15 2023: 12:35 Jingwen signs in
+March 15 2023: 12:35 Manifest tests/ShipCase2.txt is opened, there are 4 containers on the ship.
+March 15 2023: 12:35 'Cat' is offloaded.
+March 15 2023: 12:35 Jingwen signs in
+March 15 2023: 12:37 Jingwen signs in
+March 15 2023: 12:37 Jingwen signs in
+March 15 2023: 12:38 Manifest tests/ShipCase2.txt is opened, there are 4 containers on the ship.
+March 15 2023: 12:38 'test1' is onloaded.
+March 15 2023: 12:38 'Dog' is offloaded.
+March 15 2023: 12:38 Jingwen signs in
+March 15 2023: 12:38 Recovered from crash!March 15 2023: 12:38 'Dog' is offloaded.
+March 15 2023: 12:38 Jingwen signs out
+March 15 2023: 12:38 Finish a cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 12:43 Jingwen signs in
+March 15 2023: 12:43 Manifest tests/ShipCase2.txt is opened, there are 4 containers on the ship.
+March 15 2023: 12:44 'test1' is onloaded.
+March 15 2023: 12:44 Jingwen signs in
+March 15 2023: 12:44 Recovered from crash!March 15 2023: 12:44 'Cat' is offloaded.
+March 15 2023: 12:44 Jingwen signs out
+March 15 2023: 12:44 Finish a cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 12:44 Jingwen signs in
+March 15 2023: 12:44 Manifest tests/ShipCase2.txt is opened, there are 4 containers on the ship.
+March 15 2023: 12:44 Jingwen signs out
+March 15 2023: 12:44 Finish a cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 12:45 Jingwen signs in
+March 15 2023: 12:46 Jingwen signs in
+March 15 2023: 12:46 Manifest tests/ShipCase2.txt is opened, there are 4 containers on the ship.
+March 15 2023: 12:46 Jingwen signs out
+March 15 2023: 12:46 Finish a cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 13:05 Jing signs in
+March 15 2023: 13:05 Jingwen signs in
+March 15 2023: 13:05 Manifest tests/ShipCase2.txt is opened, there are 4 containers on the ship.
+March 15 2023: 13:05 'Cat' is offloaded.
+March 15 2023: 13:06 Jingwen signs in
+March 15 2023: 13:06 Recovered from crash!March 15 2023: 13:06 'Dog' is offloaded.
+March 15 2023: 13:06 'Dog' is offloaded.
+March 15 2023: 13:06 Jingwen signs out
+March 15 2023: 13:06 Finish a cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 13:06 Jingwen signs in
+March 15 2023: 13:06 Jingwen signs in
+March 15 2023: 13:13 Jingwen signs in
+March 15 2023: 13:13 Jingwen signs in
+March 15 2023: 13:15 Jing signs in
+March 15 2023: 13:15 Jingwen signs in
+March 15 2023: 13:15 Manifest tests/ShipCase3.txt is opened, there are 6 containers on the ship.
+March 15 2023: 13:16 'Cat' is offloaded.
+March 15 2023: 13:16 Jing signs in
+March 15 2023: 13:16 Recovered from crash!March 15 2023: 13:16 'Cow' is offloaded.
+March 15 2023: 13:16 'Rat' is offloaded.
+March 15 2023: 13:16 Jing signs out
+March 15 2023: 13:16 Finish a cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 15:34 Shiloh Felix signs in
+March 15 2023: 15:34 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 15 2023: 15:38 Shiloh Felix signs out
+March 15 2023: 15:38 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 15:40 Shiloh Felix signs in
+March 15 2023: 15:40 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 15 2023: 15:41 'test1' is onloaded.
+March 15 2023: 15:41 'Cat' is offloaded.
+March 15 2023: 15:42 'Dog' is offloaded.
+March 15 2023: 15:42 Shiloh Felix signs out
+March 15 2023: 15:42 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 15:43 Shiloh Felix signs in
+March 15 2023: 15:43 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 15 2023: 15:44 
+March 15 2023: 15:45 test1 with weight -1 added, ignore
+March 15 2023: 15:49 Shiloh Felix signs out
+March 15 2023: 15:49 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 15:49 Shiloh Felix signs in
+March 15 2023: 15:50 Manifest tests/ShipCase4.txt is opened, there are 7 containers on the ship.
+March 15 2023: 15:50 Shiloh Felix signs out
+March 15 2023: 15:50 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 15 2023: 15:50 Shiloh Felix signs in
+March 15 2023: 15:50 Recovered from crash!March 21 2023: 14:30 Shiloh Felix signs in
+March 21 2023: 14:30 Recovered from crash!March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:30 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:32 Shiloh Felix signs out
+March 21 2023: 14:37 Shiloh Felix signs in
+March 21 2023: 14:37 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 21 2023: 14:37 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:38 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 14:38 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 15:00 Shiloh Felix signs out
+March 21 2023: 15:01 Shiloh Felix signs in
+March 21 2023: 15:01 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 21 2023: 15:01 Shiloh Felix signs in
+March 21 2023: 15:02 Shiloh Felix signs in
+March 21 2023: 15:02 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 21 2023: 15:03 Shiloh Felix signs out
+March 21 2023: 15:03 Shiloh Felix signs in
+March 21 2023: 15:03 Recovered from crash!March 21 2023: 15:04 Shiloh Felix signs in
+March 21 2023: 15:04 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 21 2023: 15:05 Shiloh Felix signs out
+March 21 2023: 15:06 Shiloh Felix signs in
+March 21 2023: 15:06 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 21 2023: 15:06 Shiloh Felix signs out
+March 21 2023: 15:08 Shiloh Felix signs in
+March 21 2023: 15:08 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 21 2023: 15:12 Shiloh Felix signs in
+March 21 2023: 15:12 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 21 2023: 15:12 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 15:14 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 15:14 Shiloh Felix signs out
+March 21 2023: 15:15 Shiloh Felix signs in
+March 21 2023: 15:15 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 21 2023: 15:16 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 15:16 Shiloh Felix signs out
+March 21 2023: 15:28 Shiloh Felix signs in
+March 21 2023: 15:28 Manifest tests/ShipCase1.txt is opened, there are 2 containers on the ship.
+March 21 2023: 15:28 Shiloh Felix signs out
+March 21 2023: 15:29 Shiloh Felix signs in
+March 21 2023: 15:29 Recovered from crash!March 21 2023: 15:29 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 21 2023: 15:29 Shiloh Felix signs out
+March 22 2023: 02:04 Shiloh Felix signs in
+March 22 2023: 02:06 Shiloh Felix signs in
+March 22 2023: 02:07 Shiloh Felix signs out
+March 22 2023: 02:20 Shiloh Felix signs in
+March 22 2023: 02:21 Shiloh Felix signs in
+March 22 2023: 02:24 Shiloh Felix signs out
+March 22 2023: 02:24 Shiloh Felix signs in
+March 22 2023: 02:25 Shiloh Felix signs out
+March 22 2023: 02:25 Shiloh Felix signs in
+March 22 2023: 02:26 Shiloh Felix signs out
+March 22 2023: 02:37 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 02:42 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 02:45 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 02:50 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 02:50 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 02:51 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 02:53 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 02:53 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 02:55 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 02:57 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 02:58 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:00 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:00 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:00 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:05 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:05 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:07 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:07 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:07 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:07 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:07 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:08 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:14 Recovered from crash!March 22 2023: 03:14 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:14 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:16 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:16 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:16 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:18 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:18 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:19 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:19 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:20 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:20 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:24 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:24 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:25 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 22 2023: 03:25 Finish a cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:31 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:31 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:32 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:37 Recovered from crash!March 22 2023: 03:38 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 03:39 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:42 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 22 2023: 03:45 Recovered from crash!March 22 2023: 03:45 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:46 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:46 Recovered from crash!March 22 2023: 03:58 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 03:59 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:01 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:02 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:03 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:03 Finish a cycle. Manifest OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:03 Finish a cycle. Manifest OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:03 Finish a cycle. Manifest OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:07 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:07 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:10 Recovered from crash!March 22 2023: 04:10 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:13 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:14 Recovered from crash!March 22 2023: 04:14 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:22 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:22 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:22 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 22 2023: 04:24 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:26 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:26 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:26 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 22 2023: 04:26 Finish a cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:28 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:29 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:30 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:30 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:34 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:34 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:34 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 22 2023: 04:35 'test' is onloaded.
+March 22 2023: 04:35 Finish a cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:35 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 22 2023: 04:35 'test1' is onloaded.
+March 22 2023: 04:35 'Rat' is offloaded.
+March 22 2023: 04:36 Finish a cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:36 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase5.txt is opened, there are 5 containers on the ship.
+March 22 2023: 04:36 Finish a cycle. Manifest ShipCase5OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 04:37 Manifest C:\Users\Ocean\Documents\UCR\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 04:39 Recovered from crash!March 22 2023: 04:39 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 18:55 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 22 2023: 18:55 Finish a cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 18:55 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 22 2023: 18:56 Finish a cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 19:03 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 22 2023: 19:03 Finish a cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 19:06 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 22 2023: 19:06 Finish a cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 20:53 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 22 2023: 20:55 Finish a cycle. Manifest ShipCase2OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 20:55 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 22 2023: 20:55 Finish a cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 20:57 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 22 2023: 20:57 Finish a cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 21:02 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 21:02 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 21:49 Jingwen signs in
+March 22 2023: 21:51 Jingwen signs in
+March 22 2023: 21:51 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase4.txt is opened, there are 7 containers on the ship.
+March 22 2023: 21:52 
+March 22 2023: 21:52 
+March 22 2023: 21:55 Jingwen Huang signs in
+March 22 2023: 21:56 Jing signs in
+March 22 2023: 21:57 Jing signs in
+March 22 2023: 21:57 Jing signs in
+March 22 2023: 21:58 
+March 22 2023: 21:59 Jing signs in
+March 22 2023: 21:59 
+March 22 2023: 22:02 Jing signs in
+March 22 2023: 22:02 
+March 22 2023: 22:03 
+March 22 2023: 22:03 
+March 22 2023: 22:04 Jing signs in
+March 22 2023: 22:04 Jing signs in
+March 22 2023: 22:04 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase4.txt is opened, there are 7 containers on the ship.
+March 22 2023: 22:05 Jing signs in
+March 22 2023: 22:05 Recovered from crash!
+March 22 2023: 22:05 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 22:09 Jingwen signs in
+March 22 2023: 22:10 Jingwen signs in
+March 22 2023: 22:10 Jingwen signs in
+March 22 2023: 22:11 Jingwen signs in
+March 22 2023: 22:11 Jingwen signs in
+March 22 2023: 22:11 Jingwen signs in
+March 22 2023: 22:12 Jingwen signs in
+March 22 2023: 22:12 Jingwen signs in
+March 22 2023: 22:12 Jing signs in
+March 22 2023: 22:13 Jingwen signs in
+March 22 2023: 22:13 Jingwen signs in
+March 22 2023: 22:13 Jingwen signs in
+March 22 2023: 22:13 Jingwen signs in
+March 22 2023: 22:14 Jingwen signs in
+March 22 2023: 22:14 Jingwen signs in
+March 22 2023: 22:14 Jingwen signs in
+March 22 2023: 22:15 Jingwen signs in
+March 22 2023: 22:15 Jingwen signs in
+March 22 2023: 22:18 Jingwen signs in
+March 22 2023: 22:20 Jingwen signs in
+March 22 2023: 22:21 Jingwen signs out
+March 22 2023: 22:21 Jingwen signs in
+March 22 2023: 22:21 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 22 2023: 22:21 Jingwen signs out
+March 22 2023: 22:21 Jingwen signs in
+March 22 2023: 22:21 Recovered from crash!
+March 22 2023: 22:21 Finish a cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 22:21 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase5.txt is opened, there are 5 containers on the ship.
+March 22 2023: 22:22 'test1' is onloaded.
+March 22 2023: 22:22 Finish a cycle. Manifest ShipCase5OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 22:22 Jingwen signs out
+March 22 2023: 22:25 Jingwen signs in
+March 22 2023: 22:25 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 22 2023: 22:26 Jingwen signs in
+March 22 2023: 22:26 Jingwen signs in
+March 22 2023: 22:27 Jingwen signs out
+March 22 2023: 22:28 Jingwen signs in
+March 22 2023: 22:30 Jingwen signs in
+March 22 2023: 22:31 Jingwen signs in
+March 22 2023: 22:32 Jingwen signs in
+March 22 2023: 22:33 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 22:33 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 22:33 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase4.txt is opened, there are 7 containers on the ship.
+March 22 2023: 22:33 'test1' is onloaded.
+March 22 2023: 22:34 Jingwen signs in
+March 22 2023: 22:34 Jingwen signs out
+March 22 2023: 22:39 Jingwen signs in
+March 22 2023: 22:41 Jingwen signs in
+March 22 2023: 22:42 Jingwen signs in
+March 22 2023: 22:42 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 22 2023: 22:42 Jingwen signs out
+March 22 2023: 22:42 Jing signs in
+March 22 2023: 22:45 Jingwen signs in
+March 22 2023: 22:56 Jingwen signs in
+March 22 2023: 22:57 Jingwen signs in
+March 22 2023: 22:59 Jingwen signs in
+March 22 2023: 22:59 Jingwen signs in
+March 22 2023: 23:00 Jingwen signs in
+March 22 2023: 23:00 Jingwen signs in
+March 22 2023: 23:00 Jingwen signs in
+March 22 2023: 23:00 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 22 2023: 23:04 Jingwen signs in
+March 22 2023: 23:04 Jingwen signs in
+March 22 2023: 23:04 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 22 2023: 23:05 Jingwen signs out
+March 22 2023: 23:07 Jingwen signs in
+March 22 2023: 23:07 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase4.txt is opened, there are 7 containers on the ship.
+March 22 2023: 23:15 Jingwen signs in
+March 22 2023: 23:15 Jingwen signs in
+March 22 2023: 23:16 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 22 2023: 23:16 'test2' is onloaded.
+March 22 2023: 23:16 'Dog' is offloaded.
+March 22 2023: 23:16 Jingwen signs out
+March 22 2023: 23:16 Jing signs in
+March 22 2023: 23:16 Recovered from crash!
+March 22 2023: 23:16 'Rat' is offloaded.
+March 22 2023: 23:16 Finish a cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 23:17 Jing signs out
+March 22 2023: 23:18 Jing signs in
+March 22 2023: 23:18 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 22 2023: 23:19 Jing signs out
+March 22 2023: 23:21 Jingwen signs in
+March 22 2023: 23:21 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase5.txt is opened, there are 5 containers on the ship.
+March 22 2023: 23:23 Jingwen signs in
+March 22 2023: 23:24 Jingwen signs in
+March 22 2023: 23:24 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase4.txt is opened, there are 7 containers on the ship.
+March 22 2023: 23:24 Jingwen signs out
+March 22 2023: 23:24 Jingwen signs in
+March 22 2023: 23:25 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 22 2023: 23:26 Jingwen signs in
+March 22 2023: 23:26 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 22 2023: 23:27 Jingwen signs out
+March 22 2023: 23:28 Jingwen signs in
+March 22 2023: 23:28 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase4.txt is opened, there are 7 containers on the ship.
+March 22 2023: 23:29 'Pig' is offloaded.
+March 22 2023: 23:29 'test1' is onloaded.
+March 22 2023: 23:29 'Cat' is offloaded.
+March 22 2023: 23:29 Finish a cycle. Manifest ShipCase4OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 23:29 Jingwen signs out
+March 22 2023: 23:30 Jingwen signs in
+March 22 2023: 23:30 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 22 2023: 23:30 Jingwen signs out
+March 22 2023: 23:32 Jing signs in
+March 22 2023: 23:32 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase1.txt is opened, there are 2 containers on the ship.
+March 22 2023: 23:33 'Cat' is offloaded.
+March 22 2023: 23:33 Finish a cycle. Manifest ShipCase1OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 22 2023: 23:35 Jing signs in
+March 22 2023: 23:36 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 22 2023: 23:37 'test1' is onloaded.
+March 22 2023: 23:37 Jing signs out
+March 22 2023: 23:37 Jing signs in
+March 22 2023: 23:37 Recovered from crash!
+March 22 2023: 23:37 'Cat' is offloaded.
+March 22 2023: 23:37 Finish a cycle. Manifest ShipCase3OUTBOUND.txt was written to desktop, and a reminder pop-up to operator to send file was displayed
+March 23 2023: 00:01 Jing signs in
+March 23 2023: 00:02 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 23 2023: 00:03 Jingwen signs in
+March 23 2023: 00:03 Jing signs in
+March 23 2023: 00:03 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 23 2023: 00:05 Jingwen signs in
+March 23 2023: 00:05 Jingwen signs in
+March 23 2023: 00:06 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase3.txt is opened, there are 6 containers on the ship.
+March 23 2023: 00:06 Jingwen signs in
+March 23 2023: 00:07 Jingwen signs in
+March 23 2023: 00:07 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase2.txt is opened, there are 4 containers on the ship.
+March 23 2023: 00:09 Jing signs in
+March 23 2023: 00:09 Jing signs in
+March 23 2023: 00:09 Manifest C:\cygwin64\home\huang\CS179M\tests\ShipCase4.txt is opened, there are 7 containers on the ship.
